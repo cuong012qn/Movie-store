@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<Movie>
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3">
+            <div class="card">
+                <a asp-action="Details" asp-route-id="@item.ID">
+                    <img class="card-img-top img-fluid img-thumbnail" src="~/img/@item.Image">
+                </a>
+                <div class="card-header">
+                    <a asp-action="Details" asp-route-id="@item.ID">
+                        <h3>@item.Title</h3>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">@item.ReleaseDate.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
