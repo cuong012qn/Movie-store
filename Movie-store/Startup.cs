@@ -34,8 +34,12 @@ namespace Movie_store
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IProducerRepository, ProducerRepository>();
             services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
 
             services.AddControllersWithViews();
+
+            //services.AddRazorPages();
+            //services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

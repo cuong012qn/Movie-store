@@ -1,4 +1,10 @@
-﻿@model PaginatedList<Movie_store.Models.Director>
+﻿
+
+@model IEnumerable<Director>
+
+@{ 
+    int? IDMovie = ViewData["IDMovie"] as int?;
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -7,18 +13,19 @@
     <thead>
         <tr>
             <th>
-                FullName
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                BirthDate
+                @Html.DisplayNameFor(model => model.BirthDate)
             </th>
             <th>
-                Image
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th>
-                Gender
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
             <th>
-                PlaceofBirth
+                @Html.DisplayNameFor(model => model.PlaceofBirth)
             </th>
             <th></th>
         </tr>
@@ -43,25 +50,12 @@
                     @Html.DisplayFor(modelItem => item.PlaceofBirth)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <a asp-action="AddDirector" 
+                       asp-route-IDDirector="@item.ID"
+                       asp-route-IDMovie="@IDMovie">Add</a> |
+                    <a asp-action="Details" asp-controller="Director" asp-route-id="@item.ID">Details</a> |
                 </td>
             </tr>
         }
-
-        @{
-            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-        }
-
-        <div class="float-right">
-            <a class="btn btn-primary @prevDisabled"
-               asp-action="List" asp-controller="Director"
-               asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-            <a class="btn btn-primary @nextDisabled"
-               asp-action="List" asp-controller="Director"
-               asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-        </div>
     </tbody>
 </table>

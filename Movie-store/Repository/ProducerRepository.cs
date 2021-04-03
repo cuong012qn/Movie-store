@@ -25,7 +25,9 @@ namespace Movie_store.Repository
 
         public async Task<Producer> FindByID(int id)
         {
-            return await _context.Producers.FindAsync(id);
+            return await _context.Producers
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.ID.Equals(id));
         }
 
         public async Task<List<Producer>> GetAll()

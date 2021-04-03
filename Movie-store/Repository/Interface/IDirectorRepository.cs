@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Movie_store.Repository.Interface
 {
-    interface IDirectorRepository
+    public interface IDirectorRepository
     {
-        Task<List<Director>> GetAll();
+        Task<IEnumerable<Director>> GetAll();
+
+        Task<List<Movie>> GetMovies(int IDDirector);
+
+        Task<List<Director>> GetDirectorsDistinct(int IDMovie);
 
         void Add(Director director);
 

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Movie_store.Repository.Interface
 {
-    interface IMovieDirectorRepository
+    public interface IMovieDirectorRepository
     {
         Task<List<MovieDirector>> GetAll();
 
-        void Add(MovieDirector movieDirector);
+        void Add(int IDMovie, int IDDirector);
 
-        void Remove(MovieDirector movieDirector);
+        void Remove(int IDMovie, int IDDirector);
 
         Task<MovieDirector> FindByID(int id);
 

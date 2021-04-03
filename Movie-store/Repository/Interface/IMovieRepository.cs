@@ -16,6 +16,8 @@ namespace Movie_store.Repository.Interface
 
         Task<Movie> FindByID(int id);
 
+        Task<List<Director>> GetDirectors(int idMovie);
+
         Task UpdateAsync(int id, Movie movie);
 
         Task SaveAsync();

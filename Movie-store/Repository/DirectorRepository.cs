@@ -25,16 +25,43 @@ namespace Movie_store.Repository
 
         public async Task<Director> FindByID(int id)
         {
-            return await _context.Directors.FindAsync(id);
+            return await _context.Directors
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.ID.Equals(id));
         }
 
-        public async Task<List<Director>> GetAll()
+        public async Task<IEnumerable<Director>> GetAll()
         {
             return await _context.Directors.ToListAsync();
         }
 
+        public async Task<List<Director>> GetDirectorsDistinct(int IDMovie)
+        {
+            var director = await GetAll();
+            var moviedirectors = await _context.MovieDirectors
+                .Where(x => x.IDMovie.Equals(IDMovie))
+                .Select(x => x.Director).ToListAsync();
+
+            return director.Except(moviedirectors).ToList();
+
+        }
+
+        public async Task<List<Movie>> GetMovies(int IDDirector)
+        {
+            return await _context.MovieDirectors
+                .Include(x => x.Movie)
+                .ThenInclude(x => x.Producer)
+                .Where(x => x.IDDirector.Equals(IDDirector))
+                .Select(x => x.Movie)
+                .ToListAsync();
+        }
+
         public void Remove(Director director)
         {
+            var findMovieDirector = _context.MovieDirectors.Where(x => x.IDDirector.Equals(director.ID));
+
+            _context.MovieDirectors.RemoveRange(findMovieDirector);
+
             _context.Directors.Remove(director);
         }
 

@@ -4,25 +4,33 @@
 
 @model List<Movie>
 
+    <a asp-action="Create">
+        <h4>Create</h4>
+    </a>
 
-<div class="row">
+    <div class="row">
 
-    @foreach (var item in Model)
-    {
-        <div class="col-sm-3">
-            <div class="card">
-                <a asp-action="Details" asp-route-id="@item.ID">
-                    <img class="card-img-top img-fluid img-thumbnail" src="~/img/@item.Image">
-                </a>
-                <div class="card-header">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+                <div class="card">
                     <a asp-action="Details" asp-route-id="@item.ID">
-                        <h3>@item.Title</h3>
+                        <img class="card-img-top img-fluid img-thumbnail" src="~/img/@item.Image">
                     </a>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">@item.ReleaseDate.ToShortDateString()</p>
+                    <div class="card-header">
+                        <a asp-action="Details" asp-route-id="@item.ID">
+                            <h3>@item.Title</h3>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@item.ReleaseDate.ToShortDateString()</p>
+                    </div>
+
+                    <div class="text-right">
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Remove</a>
+                    </div> 
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>

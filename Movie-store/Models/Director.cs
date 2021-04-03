@@ -19,7 +19,7 @@ namespace Movie_store.Models
         [Required]
         public string FullName { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
         [Required]
@@ -27,6 +27,9 @@ namespace Movie_store.Models
 
         [NotMapped]
         public IFormFile UploadImage { get; set; }
+
+        [NotMapped]
+        public int IDMovie { get; set; }
 
         [Required]
         public string Gender { get; set; }

@@ -1,6 +1,10 @@
 ﻿
 @model Movie
 
+@{ 
+    List<Director> directors = ViewData["Directors"] as List<Director>;
+}
+
 
 <div class="row">
     <div class="col-sm-3">
@@ -8,6 +12,30 @@
     </div>
     <div class="col-sm-9">
         <h3 class="text-uppercase font-weight-bold">@Model.Title</h3>
+        <h4>@Model.Producer.FullName</h4>
+        <p>@Model.ReleaseDate</p>
         <p>@Model.Description</p>
+    </div>
+
+    <h3>Directors <a asp-action="Create" asp-controller="MovieDirector" asp-route-IDMovie="@Model.ID">Add Director</a></h3>
+
+    <div class="card-deck">
+        @foreach (var item in directors)
+        {
+            <div class="card">
+                <img class="card-img-top img-fluid img-thumbnail" src="~/img/@item.Image"/>
+                <div class="card-body">
+                    <h3>@item.FullName</h3>
+                    <h5>Date of birth: @item.BirthDate.ToShortDateString()</h5>
+
+                    <form method="post">
+                        <input type="submit" asp-action="Delete"
+                           asp-route-IDDirector="@item.ID"
+                           asp-route-IDMovie="@Model.ID" value="Delete" class="btn btn-primary"
+                           asp-controller="MovieDirector" />
+                    </form>
+                </div>
+            </div>
+        }
     </div>
 </div>

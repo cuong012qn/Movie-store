@@ -28,7 +28,7 @@ namespace Movie_store.Models
         [Required]
         public string Description { get; set; }
 
-        [Required, DataType(DataType.DateTime)]
+        [Required, DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
         [Required]

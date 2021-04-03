@@ -17,9 +17,13 @@ namespace Movie_store.Repository
             _context = context;
         }
 
-        public void Add(MovieDirector movieDirector)
+        public void Add(int IDMovie, int IDDirector)
         {
-            _context.MovieDirectors.Add(movieDirector);
+            _context.MovieDirectors.Add(new MovieDirector()
+            {
+                IDMovie = IDMovie,
+                IDDirector = IDDirector
+            });
         }
 
         public async Task<MovieDirector> FindByID(int id)
@@ -27,14 +31,21 @@ namespace Movie_store.Repository
             return null;
         }
 
-        public Task<List<MovieDirector>> GetAll()
+        public async Task<List<MovieDirector>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.MovieDirectors
+                .Include(x => x.Movie)
+                .Include(x => x.Director)
+                .ToListAsync();
         }
 
-        public void Remove(MovieDirector movieDirector)
+        public void Remove(int IDMovie, int IDDirector)
         {
-            _context.MovieDirectors.Remove(movieDirector);
+            var findMovieDir = _context
+                .MovieDirectors
+                .SingleOrDefault(x => x.IDMovie.Equals(IDMovie) && x.IDDirector.Equals(IDDirector));
+
+            if (findMovieDir != null) _context.MovieDirectors.Remove(findMovieDir);
         }
 
         public async Task SaveAsync()

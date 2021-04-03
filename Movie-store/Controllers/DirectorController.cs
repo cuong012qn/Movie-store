@@ -8,28 +8,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Movie_store.Models;
 using Microsoft.EntityFrameworkCore;
+using Movie_store.Repository.Interface;
+using Movie_store.Extensions;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Movie_store.Controllers
 {
     public class DirectorController : Controller
     {
         private readonly ILogger<DirectorController> _logger;
-        private readonly MovieDBContext _context;
+        private readonly IDirectorRepository _directorRepository;
+        private readonly IMovieRepository _movieRepository;
+        private readonly IWebHostEnvironment _hosting;
+        private readonly IMovieDirectorRepository _movieDirectorRepository;
 
-        public DirectorController(ILogger<DirectorController> logger, MovieDBContext context)
+        public DirectorController(
+            ILogger<DirectorController> logger,
+            IDirectorRepository directorRepository,
+            IMovieRepository movieRepository,
+            IMovieDirectorRepository movieDirectorRepository,
+            IWebHostEnvironment hosting
+            )
         {
             _logger = logger;
-            _context = context;
+            _directorRepository = directorRepository;
+            _movieRepository = movieRepository;
+            _movieDirectorRepository = movieDirectorRepository;
+            _hosting = hosting;
         }
 
-        public async Task<IActionResult> List(int IDMovie)
+        public async Task<IActionResult> List(int? pageNumber)
         {
-            List<Director> directors = await _context.MovieDirectors
-                .Include(director => director.Director)
-                .Where(x => IDMovie.Equals(IDMovie))
-                .Select(director => director.Director)
-                .ToListAsync();
-            return View(directors);
+            var directors = await _directorRepository.GetAll();
+            return View(PaginatedList<Director>
+                .Create(directors.AsQueryable(), pageNumber ?? 1, 10));
         }
 
         // GET: DirectorController
@@ -39,9 +51,10 @@ namespace Movie_store.Controllers
         }
 
         // GET: DirectorController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            ViewData["Movies"] = await _directorRepository.GetMovies(id);
+            return View(await _directorRepository.FindByID(id));
         }
 
         // GET: DirectorController/Create
@@ -53,11 +66,17 @@ namespace Movie_store.Controllers
         // POST: DirectorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Director director)
         {
+            if (director == null) return BadRequest();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                director.Image = director.UploadImage.FileName;
+                await UploadFileHelper.Instance.Upload(director.UploadImage, _hosting);
+                _directorRepository.Add(director);
+                await _directorRepository.SaveAsync();
+                return RedirectToAction(nameof(List));
             }
             catch
             {
@@ -66,44 +85,62 @@ namespace Movie_store.Controllers
         }
 
         // GET: DirectorController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            return View(await _directorRepository.FindByID(id));
         }
 
         // POST: DirectorController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Director director)
         {
+            if (director == null) return BadRequest();
+
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                var FindDirector = await _directorRepository.FindByID(id);
+
+                if (director.UploadImage != null)
+                {
+                    UploadFileHelper.Instance.Delete(FindDirector.Image, _hosting);
+                    await UploadFileHelper.Instance.Upload(director.UploadImage, _hosting);
+                }
+                else director.Image = FindDirector.Image;
+
+                await _directorRepository.UpdateAsync(id, director);
+                await _directorRepository.SaveAsync();
+                return RedirectToAction(nameof(List));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _logger.LogError(ex.Message);
+                return View(director);
             }
         }
 
         // GET: DirectorController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            return View(await _directorRepository.FindByID(id));
         }
 
         // POST: DirectorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Director director)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _directorRepository.Remove(director);
+                await _directorRepository.SaveAsync();
+                return RedirectToAction(nameof(List));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _logger.LogError(ex.Message);
+                return View(director);
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Movie_store.Repository.Interface
 {
-    interface IProducerRepository
+    public interface IProducerRepository
     {
         Task<List<Producer>> GetAll();
 
