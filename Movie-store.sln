@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie-store", "Movie-store\Movie-store.csproj", "{F5DEC4D0-635D-4C02-A87E-1E09045CBC8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie-store", "Movie-store\Movie-store.csproj", "{F5DEC4D0-635D-4C02-A87E-1E09045CBC8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie-Store-API", "Movie-Store-API\Movie-Store-API.csproj", "{86253010-FF94-47F9-9C82-372A0A043748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie-Store-Data", "Movie-Store-Data\Movie-Store-Data.csproj", "{A7731D31-13A0-4333-A079-39E61A6221CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{F5DEC4D0-635D-4C02-A87E-1E09045CBC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DEC4D0-635D-4C02-A87E-1E09045CBC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DEC4D0-635D-4C02-A87E-1E09045CBC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86253010-FF94-47F9-9C82-372A0A043748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86253010-FF94-47F9-9C82-372A0A043748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86253010-FF94-47F9-9C82-372A0A043748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86253010-FF94-47F9-9C82-372A0A043748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7731D31-13A0-4333-A079-39E61A6221CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7731D31-13A0-4333-A079-39E61A6221CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7731D31-13A0-4333-A079-39E61A6221CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7731D31-13A0-4333-A079-39E61A6221CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
