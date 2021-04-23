@@ -3,15 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Movie_Store_Data.Models
+namespace Movie_Store_API.ViewModels
 {
-    [Table("Movie")]
-    public class Movie
+    public class MovieRequest
     {
-
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column(Order = 0)]
         public int ID { get; set; }
 
         [Required]
@@ -31,10 +29,5 @@ namespace Movie_Store_Data.Models
 
         [Required]
         public int IDProducer { get; set; }
-
-        [ForeignKey("IDProducer")]
-        public Producer Producer { get; set; }
-
-        public IList<MovieDirector> MovieDirectors { get; set; }
     }
 }

@@ -11,6 +11,8 @@ using Movie_Store_API.Services;
 using Movie_Store_API.Services.Interface;
 using Movie_Store_Data.Data;
 using System.Net;
+using Movie_Store_API.Repository;
+using Movie_Store_API.Repository.Interface;
 
 namespace Movie_Store_API
 {
@@ -35,6 +37,8 @@ namespace Movie_Store_API
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
             services.AddScoped<IUserSevice, UserService>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
