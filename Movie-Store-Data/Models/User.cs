@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Movie_Store_API.Models
+namespace Movie_Store_Data.Models
 {
     public class User
     {

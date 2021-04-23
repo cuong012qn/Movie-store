@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Movie_Store_API.Data;
+using Movie_Store_Data.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -20,4 +20,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Movie-Store-Data\Movie-Store-Data.csproj" />
+  </ItemGroup>
+
 </Project>

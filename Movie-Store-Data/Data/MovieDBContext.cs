@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Movie_Store_API.Models;
+using Movie_Store_Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Movie_Store_API.Data
+namespace Movie_Store_Data.Data
 {
     public class MovieDBContext : DbContext
     {
@@ -30,6 +29,9 @@ namespace Movie_Store_API.Data
                 .HasOne(dir => dir.Director)
                 .WithMany(md => md.MovieDirectors)
                 .HasForeignKey(key => key.IDDirector);
+
+            //SeedData seedData = new SeedData(this);
+            //seedData.Seed();
         }
 
 

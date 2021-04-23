@@ -1,21 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Movie_Store_API.Middleware;
 using Movie_Store_API.Services;
 using Movie_Store_API.Services.Interface;
-using Movie_Store_API.Data;
-using Microsoft.EntityFrameworkCore;
+using Movie_Store_Data.Data;
+using System.Net;
 
 namespace Movie_Store_API
 {
@@ -31,6 +26,11 @@ namespace Movie_Store_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
+
             services.AddDbContextPool<MovieDBContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
@@ -52,11 +52,16 @@ namespace Movie_Store_API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie_Store_API v1"));
             }
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             //app.UseStaticFiles();
 
 
             app.UseMiddleware<JwtMiddleware>();
-            
+
             app.UseMiddleware<StaticFilesMiddleware>();
 
             app.UseHttpsRedirection();

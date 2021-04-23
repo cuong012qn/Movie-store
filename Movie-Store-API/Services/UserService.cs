@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Movie_Store_API.Models;
 using Movie_Store_API.Services.Interface;
 using Movie_Store_API.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Movie_Store_API.Extensions;
+using Movie_Store_Data.Data;
+using Movie_Store_Data.Models;
 
 namespace Movie_Store_API.Services
 {

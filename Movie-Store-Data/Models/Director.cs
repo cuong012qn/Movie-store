@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movie_Store_API.Models
+namespace Movie_Store_Data.Models
 {
     [Table("Director")]
     public class Director

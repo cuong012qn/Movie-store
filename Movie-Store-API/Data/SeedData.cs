@@ -1,4 +1,5 @@
-﻿using Movie_Store_API.Models;
+﻿using Movie_Store_Data.Data;
+using Movie_Store_Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

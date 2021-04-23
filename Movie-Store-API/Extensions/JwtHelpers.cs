@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Movie_Store_Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Movie_Store_API.Models;
 
 namespace Movie_Store_API.Extensions
 {
