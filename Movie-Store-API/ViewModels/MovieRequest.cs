@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Movie_Store_Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,9 +17,6 @@ namespace Movie_Store_API.ViewModels
         public string Title { get; set; }
 
         [Required]
-        public string Image { get; set; }
-
-        [NotMapped]
         public IFormFile UploadImage { get; set; }
 
         [Required]
@@ -29,5 +27,7 @@ namespace Movie_Store_API.ViewModels
 
         [Required]
         public int IDProducer { get; set; }
+
+        public List<Director> Directors { get; set; }
     }
 }

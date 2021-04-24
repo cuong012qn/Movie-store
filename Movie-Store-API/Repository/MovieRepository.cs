@@ -7,6 +7,7 @@ using Movie_Store_API.Repository.Interface;
 using Movie_Store_Data.Data;
 using Movie_Store_Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace Movie_Store_API.Repository
 {
@@ -19,23 +20,51 @@ namespace Movie_Store_API.Repository
             _context = context;
         }
 
-        public async Task AddMovieAsync(MovieRequest movieRequest)
+        public async Task<MovieResponse> AddMovieAsync(MovieRequest movieRequest)
         {
             Movie movie = new Movie()
             {
                 ID = movieRequest.ID,
                 Description = movieRequest.Description,
-                Image = movieRequest.Image,
                 IDProducer = movieRequest.IDProducer,
+                Image = movieRequest.UploadImage.FileName,
                 Title = movieRequest.Title,
                 ReleaseDate = movieRequest.ReleaseDate,
             };
+
             await _context.Movies.AddAsync(movie);
+            await SaveChangesAsync();
+
+            var findDirector = await _context.MovieDirectors
+                .Where(x => x.IDMovie.Equals(movie.ID))
+                .Select(director => director.Director).ToListAsync();
+
+            return new MovieResponse
+            {
+                ID = movie.ID,
+                Description = movie.Description,
+                Title = movie.Title,
+                Directors = findDirector,
+                Producer = movie.Producer,
+                ReleaseDate = movie.ReleaseDate,
+                ImagePath = Path.Combine("Static", movie.Image)
+            };
         }
 
-        public void DeleteMovie(MovieRequest movieRequest)
+        public async Task DeleteMovie(int idMovie)
         {
-            throw new NotImplementedException();
+            //Delete movie
+            var findMovie = await _context.Movies.SingleOrDefaultAsync(x => x.ID.Equals(idMovie));
+
+            if (findMovie != null)
+            {
+                //Delete many to many (MovieDirectors)
+                var findDirector = _context.MovieDirectors.Where(x => x.IDMovie.Equals(idMovie));
+
+                _context.MovieDirectors.RemoveRange(findDirector);
+
+                _context.Movies.Remove(findMovie);
+            }
         }
 
         public Task<MovieResponse> GetMovieByIDAsync(int id)
@@ -61,9 +90,9 @@ namespace Movie_Store_API.Repository
                 }).ToListAsync();
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
 
         public void UpdateMovie(MovieRequest movieRequest)
