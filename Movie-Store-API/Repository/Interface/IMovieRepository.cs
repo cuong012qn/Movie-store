@@ -13,7 +13,7 @@ namespace Movie_Store_API.Repository.Interface
 
         Task<MovieResponse> GetMovieByIDAsync(int id);
 
-        void UpdateMovie(MovieRequest movieRequest);
+        Task<MovieResponse> UpdateMovieAsync(MovieRequest movieRequest);
 
         Task DeleteMovie(int idMovie);
 

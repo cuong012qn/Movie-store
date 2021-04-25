@@ -8,16 +8,20 @@ using Movie_Store_Data.Data;
 using Movie_Store_Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Movie_Store_API.Extensions;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Movie_Store_API.Repository
 {
     public class MovieRepository : IMovieRepository
     {
         private readonly MovieDBContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public MovieRepository(MovieDBContext context)
+        public MovieRepository(MovieDBContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task<MovieResponse> AddMovieAsync(MovieRequest movieRequest)
@@ -67,9 +71,30 @@ namespace Movie_Store_API.Repository
             }
         }
 
-        public Task<MovieResponse> GetMovieByIDAsync(int id)
+        public async Task<MovieResponse> GetMovieByIDAsync(int id)
         {
-            throw new NotImplementedException();
+            var findMovie = await _context.Movies
+                .Include(x => x.Producer)
+                .SingleOrDefaultAsync(x => x.ID.Equals(id));
+
+            if (findMovie != null)
+            {
+                var findDirectors = await _context.MovieDirectors
+                    .Where(x => x.IDMovie.Equals(findMovie.ID))
+                    .Select(x => x.Director).ToListAsync();
+
+                return new MovieResponse
+                {
+                    ID = findMovie.ID,
+                    Description = findMovie.Description,
+                    Producer = findMovie.Producer,
+                    ReleaseDate = findMovie.ReleaseDate,
+                    Title = findMovie.Title,
+                    ImagePath = Path.Combine("Static", findMovie.Image),
+                    Directors = findDirectors
+                };
+            }
+            return null;
         }
 
         public async Task<List<MovieResponse>> GetMoviesAsync()
@@ -95,9 +120,52 @@ namespace Movie_Store_API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public void UpdateMovie(MovieRequest movieRequest)
+        public async Task<MovieResponse> UpdateMovieAsync(MovieRequest movieRequest)
         {
-            throw new NotImplementedException();
+            var findMovie = await _context.Movies
+                .Include(x=> x.Producer)
+                .SingleOrDefaultAsync(x => x.ID.Equals(movieRequest.ID));
+
+            if (findMovie != null)
+            {
+                //Check equals name
+                if (!movieRequest.UploadImage.Name.Equals(findMovie.Image))
+                {
+                    var filehelper = new FileHelpers("Static", _env);
+                    filehelper.DeleteImage(findMovie.Image);
+                    await filehelper.UploadImage(movieRequest.UploadImage);
+
+                    findMovie.Image = movieRequest.UploadImage.FileName;
+                }
+
+                findMovie.Description = movieRequest.Description;
+                findMovie.Title = movieRequest.Title;
+                findMovie.ReleaseDate = movieRequest.ReleaseDate;
+                findMovie.IDProducer = movieRequest.IDProducer;
+
+                _context.Movies.Update(findMovie);
+
+                await SaveChangesAsync();
+
+                var findDirector = await _context
+                    .MovieDirectors
+                    .Where(x => x.IDMovie.Equals(movieRequest.ID))
+                    .Select(x => x.Director)
+                    .ToListAsync();
+
+                return new MovieResponse
+                {
+                    ID = movieRequest.ID,
+                    Description = movieRequest.Description,
+                    ImagePath = Path.Combine("Static", movieRequest.UploadImage.FileName),
+                    Title = movieRequest.Title,
+                    ReleaseDate = movieRequest.ReleaseDate,
+                    Directors = findDirector,
+                    Producer = findMovie.Producer
+                };
+            }
+
+            return null;
         }
     }
 }

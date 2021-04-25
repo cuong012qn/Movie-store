@@ -8,6 +8,7 @@ using Movie_Store_API.Repository.Interface;
 using Microsoft.AspNetCore.Hosting;
 using Movie_Store_API.Extensions;
 using Movie_Store_API.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace Movie_Store_API.Controllers
 {
@@ -28,6 +29,13 @@ namespace Movie_Store_API.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateMovie([FromForm] MovieRequest movieRequest)
+        {
+
+            return Ok();
         }
 
         [HttpPut("{id}")]

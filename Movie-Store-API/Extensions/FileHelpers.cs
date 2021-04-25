@@ -35,5 +35,24 @@ namespace Movie_Store_API.Extensions
                 return false;
             }
         }
+
+        public bool DeleteImage(string fileName)
+        {
+            string filePath = Path.Combine(env.ContentRootPath, Folder, fileName);
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    var fileInfo = new FileInfo(filePath);
+                    fileInfo.Delete();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
