@@ -39,7 +39,10 @@ namespace Movie_Store_API
             services.AddScoped<IUserSevice, UserService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Movie_Store_API", Version = "v1" });
