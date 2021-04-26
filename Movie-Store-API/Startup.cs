@@ -38,6 +38,7 @@ namespace Movie_Store_API
 
             services.AddScoped<IUserSevice, UserService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IProducerRepository, ProducerRepository>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => {
