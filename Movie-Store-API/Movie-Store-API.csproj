@@ -6,6 +6,77 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Static\54eaf93713081_-_07-germany-tuna.jpg" />
+    <None Remove="Static\candice-patton.jpg" />
+    <None Remove="Static\carlos-valdes.jpg" />
+    <None Remove="Static\chandra-wilson.jpg" />
+    <None Remove="Static\danielle-panabaker.jpg" />
+    <None Remove="Static\ellen-pompeo.jpg" />
+    <None Remove="Static\enyC1P8DQThh1huqFQlVfdRuji1.jpg" />
+    <None Remove="Static\grant-gustin.jpg" />
+    <None Remove="Static\grey-anatomy.jpg" />
+    <None Remove="Static\james-pickens-jr.jpg" />
+    <None Remove="Static\justin-chambers.jpg" />
+    <None Remove="Static\the-flashjpg.jpg" />
+    <None Remove="Static\ySArFxNLO43QJsWBUQ9I85TmnqW.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Static\54eaf93713081_-_07-germany-tuna.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\candice-patton.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\carlos-valdes.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\chandra-wilson.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\danielle-panabaker.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\ellen-pompeo.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\enyC1P8DQThh1huqFQlVfdRuji1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\grant-gustin.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\grey-anatomy.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\james-pickens-jr.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\justin-chambers.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\the-flashjpg.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Static\ySArFxNLO43QJsWBUQ9I85TmnqW.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
