@@ -26,6 +26,27 @@ namespace Movie_Store_API.Controllers
             _env = env;
         }
 
+        [HttpPost("adddirector")]
+        public async Task<IActionResult> AddDirector([FromForm] int IDMovie,
+            [FromForm] int IDDirector)
+        {
+            try
+            {
+                await _movieRepository.AddDirectorAsync(IDMovie, IDDirector);
+                return Ok(
+                    new
+                    {
+                        sucess = true,
+                        message = "Added director successful!"
+                    });
+            }
+            catch
+            {
+                return StatusCode(500,
+                    new { success = false, message = "Server error! Try again" });
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovieByID(int id)
         {
@@ -59,7 +80,7 @@ namespace Movie_Store_API.Controllers
         {
             try
             {
-                await _movieRepository.DeleteMovie(id);
+                await _movieRepository.RemoveMovie(id);
                 await _movieRepository.SaveChangesAsync();
 
                 return NoContent();
