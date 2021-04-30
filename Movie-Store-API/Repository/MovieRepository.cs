@@ -48,14 +48,14 @@ namespace Movie_Store_API.Repository
                 ID = movie.ID,
                 Description = movie.Description,
                 Title = movie.Title,
-                Directors = findDirector,
-                Producer = movie.Producer,
+                Directors = null,
+                Producer = null,
                 ReleaseDate = movie.ReleaseDate,
                 ImagePath = Path.Combine("Static", movie.Image)
             };
         }
 
-        public async Task DeleteMovie(int idMovie)
+        public async Task RemoveMovie(int idMovie)
         {
             //Delete movie
             var findMovie = await _context.Movies.SingleOrDefaultAsync(x => x.ID.Equals(idMovie));
@@ -81,13 +81,21 @@ namespace Movie_Store_API.Repository
             {
                 var findDirectors = await _context.MovieDirectors
                     .Where(x => x.IDMovie.Equals(findMovie.ID))
-                    .Select(x => x.Director).ToListAsync();
+                    .Select(x => new DirectorResponse
+                    {
+                        ID = x.Director.ID,
+                        BirthDate = x.Director.BirthDate,
+                        FullName = x.Director.FullName,
+                        Gender = x.Director.FullName,
+                        Image = Path.Combine("Static", x.Director.Image),
+                        PlaceofBirth = x.Director.PlaceofBirth
+                    }).ToListAsync();
 
                 return new MovieResponse
                 {
                     ID = findMovie.ID,
                     Description = findMovie.Description,
-                    Producer = findMovie.Producer,
+                    Producer = null,
                     ReleaseDate = findMovie.ReleaseDate,
                     Title = findMovie.Title,
                     ImagePath = Path.Combine("Static", findMovie.Image),
@@ -108,10 +116,24 @@ namespace Movie_Store_API.Repository
                     Title = x.Title,
                     ImagePath = x.Image,
                     ReleaseDate = x.ReleaseDate,
-                    Producer = x.Producer,
+                    Producer = new ProducerResponse
+                    {
+                        ID = x.Producer.ID,
+                        FullName = x.Producer.FullName,
+                        IsOrganization = x.Producer.IsOrganization
+                    },
                     Directors = x.MovieDirectors
-                    .Where(md => md.IDMovie.Equals(x.ID))
-                    .Select(director => director.Director).ToList()
+                    .Where(mv => mv.IDMovie.Equals(x.ID))
+                    .Select(director => new DirectorResponse
+                    {
+                        ID = director.Director.ID,
+                        BirthDate = director.Director.BirthDate,
+                        FullName = director.Director.FullName,
+                        Gender = director.Director.FullName,
+                        Image = Path.Combine("Static", director.Director.Image),
+                        PlaceofBirth = director.Director.PlaceofBirth
+                    })
+                    .ToList()
                 }).ToListAsync();
         }
 
@@ -123,7 +145,7 @@ namespace Movie_Store_API.Repository
         public async Task<MovieResponse> UpdateMovieAsync(MovieRequest movieRequest)
         {
             var findMovie = await _context.Movies
-                .Include(x=> x.Producer)
+                .Include(x => x.Producer)
                 .SingleOrDefaultAsync(x => x.ID.Equals(movieRequest.ID));
 
             if (findMovie != null)
@@ -160,12 +182,31 @@ namespace Movie_Store_API.Repository
                     ImagePath = Path.Combine("Static", movieRequest.UploadImage.FileName),
                     Title = movieRequest.Title,
                     ReleaseDate = movieRequest.ReleaseDate,
-                    Directors = findDirector,
-                    Producer = findMovie.Producer
+                    Directors = null,
+                    Producer = null
                 };
             }
 
             return null;
+        }
+
+        public async Task AddDirectorAsync(int idMovie, int idDirector)
+        {
+            var findMovie = await _context.Movies
+                .SingleOrDefaultAsync(x => x.ID.Equals(idMovie));
+            var findDirector = await _context.Directors
+                .SingleOrDefaultAsync(x => x.ID.Equals(idDirector));
+
+            if (findMovie != null && findDirector != null)
+            {
+                _context.MovieDirectors.Add(new MovieDirector
+                {
+                    IDDirector = idDirector,
+                    IDMovie = idMovie
+                });
+
+                await SaveChangesAsync();
+            }
         }
     }
 }
