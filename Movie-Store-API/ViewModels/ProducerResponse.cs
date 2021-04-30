@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Movie_Store_API.ViewModels
@@ -18,6 +19,7 @@ namespace Movie_Store_API.ViewModels
         [Required]
         public bool IsOrganization { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<Movie> Movies { get; set; }
     }
 }
