@@ -15,9 +15,11 @@ namespace Movie_Store_API.Repository.Interface
 
         Task<MovieResponse> UpdateMovieAsync(MovieRequest movieRequest);
 
-        Task DeleteMovie(int idMovie);
+        Task RemoveMovie(int idMovie);
 
         Task<MovieResponse> AddMovieAsync(MovieRequest movieRequest);
+
+        Task AddDirectorAsync(int idMovie, int idDirector);
 
         Task SaveChangesAsync();
     }
