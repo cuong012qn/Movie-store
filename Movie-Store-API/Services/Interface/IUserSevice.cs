@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Movie_Store_API.Services.Interface
 {
-    public interface IUserService
+    public interface IUserSevice
     {
         Task<string> AuthencationUserAsync(string username, string password, string token);
 
-        Task<User> GetUserByIDAsync(string id);
-
-        Task<User> Login(string username, string password);
+        Task<User> GetUserByIDAsync(int id);
 
         Task AddUserAsync(User user);
 

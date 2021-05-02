@@ -1,15 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Movie_Store_API.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Movie_Store_API.Services.Interface;
+using Movie_Store_API.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Movie_Store_API.Extensions;
 using Movie_Store_Data.Data;
 using Movie_Store_Data.Models;
-using System;
-using System.Threading.Tasks;
 
 namespace Movie_Store_API.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUserSevice
     {
         private readonly MovieDBContext _context;
         private readonly IConfiguration _configuration;
@@ -34,20 +37,15 @@ namespace Movie_Store_API.Services
             var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Username.Equals(username) && x.Password.Equals(password));
 
             if (findUser != null)
-                return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 20);
+            {
+                return new JwtHelpers(secretkey).CreateToken(findUser);
+            }
             return string.Empty;
         }
 
-        public async Task<User> GetUserByIDAsync(string id)
+        public async Task<User> GetUserByIDAsync(int id)
         {
             return await _context.Users.FindAsync(id);
-        }
-
-        public async Task<User> Login(string username, string password)
-        {
-            return await _context.Users
-                .SingleOrDefaultAsync(
-                x => x.Username.Equals(username) && x.Password.Equals(password));
         }
 
         public void RemoveUser(User user)

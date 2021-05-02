@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Movie_Store_Data.BaseModels;
 using Movie_Store_Data.Models;
 using System;
 using System.Collections.Generic;
@@ -29,18 +30,5 @@ namespace Movie_Store_API.ViewModels
 
         [Required]
         public string PlaceofBirth { get; set; }
-
-        public DirectorResponse ToResponse(Director director)
-        {
-            return new DirectorResponse
-            {
-                ID = director.ID,
-                BirthDate = director.BirthDate,
-                FullName = director.FullName,
-                Gender = director.Gender,
-                PlaceofBirth = director.PlaceofBirth,
-                Image = director.Image
-            };
-        }
     }
 }

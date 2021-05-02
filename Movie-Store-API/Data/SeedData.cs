@@ -1,5 +1,4 @@
-﻿using Movie_Store_API.Extensions;
-using Movie_Store_Data.Data;
+﻿using Movie_Store_Data.Data;
 using Movie_Store_Data.Models;
 using System;
 using System.Collections.Generic;
@@ -17,21 +16,6 @@ namespace Movie_Store_API.Data
         public SeedData(MovieDBContext context)
         {
             _context = context;
-        }
-
-        public void CreateUserLogin()
-        {
-            
-            User user = new User
-            {
-                ID = Guid.NewGuid().ToString(),
-                FullName = "Admin user",
-                Username = "admin",
-                Password = PasswordHelper.GetEncrypt("123")
-            };
-
-            _context.Users.Add(user);
-            _context.SaveChanges();
         }
 
         private void AddTheFlash()
@@ -200,11 +184,6 @@ namespace Movie_Store_API.Data
             {
                 AddTheFlash();
                 AddGreyAnatomy();
-            }
-
-            if (!_context.Users.Any())
-            {
-                CreateUserLogin();
             }
         }
     }

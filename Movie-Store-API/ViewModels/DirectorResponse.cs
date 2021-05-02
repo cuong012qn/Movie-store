@@ -1,7 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Movie_Store_Data.BaseModels;
+using Movie_Store_Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Movie_Store_API.ViewModels
 {
