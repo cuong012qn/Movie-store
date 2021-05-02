@@ -55,7 +55,7 @@ namespace Movie_Store_API.Extensions
             return tokenHandler.WriteToken(securityToken);
         }
 
-        public JwtSecurityToken IsValidToken(string token, string user)
+        public JwtSecurityToken IsValidToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);

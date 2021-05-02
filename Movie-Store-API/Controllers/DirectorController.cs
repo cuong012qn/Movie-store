@@ -64,5 +64,39 @@ namespace Movie_Store_API.Controllers
                 response
             });
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateDirector(
+            int id,
+            DirectorRequest directorRequest)
+        {
+            await _directorRepository.UpdateProducerAsync(id, directorRequest);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveDirector(int id)
+        {
+            try
+            {
+                await _directorRepository.RemoveDirectorAsync(id);
+                await _directorRepository.SaveChangesAsync();
+                return Ok(new
+                {
+                    success = true,
+                    message = "Remove successfully!"
+                });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! The id of director can not delete right now, please try again!"
+                    });
+            }
+        }
     }
 }

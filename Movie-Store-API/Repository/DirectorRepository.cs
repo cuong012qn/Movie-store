@@ -17,7 +17,9 @@ namespace Movie_Store_API.Repository
     {
         private readonly MovieDBContext _movieDBContext;
         private readonly IWebHostEnvironment _env;
-        public DirectorRepository(MovieDBContext movieDBContext,
+
+        public DirectorRepository(
+            MovieDBContext movieDBContext,
             IWebHostEnvironment env)
         {
             _movieDBContext = movieDBContext;
@@ -63,7 +65,7 @@ namespace Movie_Store_API.Repository
         {
             var findDirector = await _movieDBContext.Directors
                 .Include(x => x.MovieDirectors)
-                .ThenInclude(x=> x.Movie)
+                .ThenInclude(x => x.Movie)
                 .SingleOrDefaultAsync(x => x.ID.Equals(id));
             if (findDirector != null)
             {
@@ -94,11 +96,16 @@ namespace Movie_Store_API.Repository
             return null;
         }
 
+        /// <summary>
+        /// Get all director
+        /// </summary>
+        /// <returns>DirectorResponse</returns>
         public async Task<List<DirectorResponse>> GetDirectorsAsync()
         {
             return await _movieDBContext
                 .Directors
                 .Include(x => x.MovieDirectors)
+                //Cast from Director to DirectorResponse
                 .Select(x => new DirectorResponse
                 {
                     ID = x.ID,
@@ -125,11 +132,52 @@ namespace Movie_Store_API.Repository
             await _movieDBContext.SaveChangesAsync();
         }
 
-        public Task<DirectorResponse> UpdateProducerAsync(
+        /// <summary>
+        /// Update product
+        /// if update success return DirectorResonpse
+        /// else return null
+        /// </summary>
+        /// <param name="idDirector">ID of Director</param>
+        /// <param name="directorRequest">Director request</param>
+        /// <returns>Director response</returns>
+        public async Task<DirectorResponse> UpdateProducerAsync(
             int idDirector,
-            DirectorRequest producerRequest)
+            DirectorRequest directorRequest)
         {
-            throw new NotImplementedException();
+            //Find director
+            var findDirector = await _movieDBContext
+                .Directors.SingleOrDefaultAsync(x => x.ID.Equals(idDirector));
+
+            //If found director
+            //MakeChange
+            if (findDirector != null)
+            {
+                //make changed image
+                if (directorRequest.UploadImage != null)
+                {
+                    var filehelper = new FileHelpers("Static", _env);
+                    var deleteImage = filehelper.DeleteImage(findDirector.Image);
+                    if (!deleteImage) return null;
+                    var uploadImage = await filehelper.UploadImage(directorRequest.UploadImage);
+                    if (!uploadImage) return null;
+
+                    findDirector.Image = directorRequest.UploadImage.FileName;
+                }
+
+                //Make changed
+                findDirector.BirthDate = directorRequest.BirthDate;
+                findDirector.FullName = directorRequest.FullName;
+                findDirector.Gender = directorRequest.Gender;
+                findDirector.PlaceofBirth = findDirector.PlaceofBirth;
+
+                await SaveChangesAsync();
+
+                return directorRequest.ToResponse(findDirector);
+            }
+
+            //Not found Director with ID
+            //Return null
+            return null;
         }
     }
 }
