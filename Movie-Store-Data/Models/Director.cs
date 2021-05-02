@@ -25,11 +25,11 @@ namespace Movie_Store_Data.Models
         [Required]
         public string Image { get; set; }
 
-        [NotMapped]
-        public IFormFile UploadImage { get; set; }
+        //[NotMapped]
+        //public IFormFile UploadImage { get; set; }
 
-        [NotMapped]
-        public int IDMovie { get; set; }
+        //[NotMapped]
+        //public int IDMovie { get; set; }
 
         [Required]
         public string Gender { get; set; }
