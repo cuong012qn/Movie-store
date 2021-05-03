@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Movie_Store_API.Repository.Interface;
-using Movie_Store_Data.Data;
 using Microsoft.Extensions.Logging;
+using Movie_Store_API.Repository.Interface;
 using Movie_Store_API.ViewModels;
+using System.Threading.Tasks;
 
 namespace Movie_Store_API.Controllers
 {
@@ -63,6 +59,40 @@ namespace Movie_Store_API.Controllers
                 message = "Added sucessful",
                 response
             });
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateDirector(
+            int id,
+            DirectorRequest directorRequest)
+        {
+            await _directorRepository.UpdateProducerAsync(id, directorRequest);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveDirector(int id)
+        {
+            try
+            {
+                await _directorRepository.RemoveDirectorAsync(id);
+                await _directorRepository.SaveChangesAsync();
+                return Ok(new
+                {
+                    success = true,
+                    message = "Remove successfully!"
+                });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! The id of director can not delete right now, please try again!"
+                    });
+            }
         }
     }
 }

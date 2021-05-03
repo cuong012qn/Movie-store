@@ -26,6 +26,10 @@ namespace Movie_Store_API.Repository
 
         public async Task<MovieResponse> AddMovieAsync(MovieRequest movieRequest)
         {
+            //Find idProducer
+            var producer = await _context.Producers.SingleOrDefaultAsync(x => x.ID.Equals(movieRequest.IDProducer));
+            if (producer == null) return null;
+
             Movie movie = new Movie()
             {
                 ID = movieRequest.ID,
@@ -36,23 +40,30 @@ namespace Movie_Store_API.Repository
                 ReleaseDate = movieRequest.ReleaseDate,
             };
 
-            await _context.Movies.AddAsync(movie);
-            await SaveChangesAsync();
+            //Save image
+            var saveImage = await new FileHelpers("Static", _env).UploadImage(movieRequest.UploadImage);
 
-            var findDirector = await _context.MovieDirectors
-                .Where(x => x.IDMovie.Equals(movie.ID))
-                .Select(director => director.Director).ToListAsync();
-
-            return new MovieResponse
+            if (saveImage)
             {
-                ID = movie.ID,
-                Description = movie.Description,
-                Title = movie.Title,
-                Directors = null,
-                Producer = null,
-                ReleaseDate = movie.ReleaseDate,
-                ImagePath = Path.Combine("Static", movie.Image)
-            };
+                await _context.Movies.AddAsync(movie);
+                await SaveChangesAsync();
+
+                var findDirector = await _context.MovieDirectors
+                    .Where(x => x.IDMovie.Equals(movie.ID))
+                    .Select(director => director.Director).ToListAsync();
+
+                return new MovieResponse
+                {
+                    ID = movie.ID,
+                    Description = movie.Description,
+                    Title = movie.Title,
+                    Directors = null,
+                    Producer = null,
+                    ReleaseDate = movie.ReleaseDate,
+                    ImagePath = Path.Combine("Static", movie.Image)
+                };
+            }
+            else return null;
         }
 
         public async Task RemoveMovie(int idMovie)

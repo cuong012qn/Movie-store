@@ -13,6 +13,9 @@ using Movie_Store_Data.Data;
 using System.Net;
 using Movie_Store_API.Repository;
 using Movie_Store_API.Repository.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Movie_Store_API
 {
@@ -36,7 +39,7 @@ namespace Movie_Store_API
             services.AddDbContextPool<MovieDBContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
-            services.AddScoped<IUserSevice, UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IProducerRepository, ProducerRepository>();
             services.AddScoped<IDirectorRepository, DirectorRepository>();
@@ -45,6 +48,18 @@ namespace Movie_Store_API
             //    .AddNewtonsoftJson(options => {
             //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             //    });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretKey")))
+                    };
+                });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -84,7 +99,7 @@ namespace Movie_Store_API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

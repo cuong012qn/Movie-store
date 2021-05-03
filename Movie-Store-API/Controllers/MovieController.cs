@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Movie_Store_Data.Data;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Movie_Store_API.Repository.Interface;
-using Microsoft.AspNetCore.Hosting;
-using Movie_Store_API.Extensions;
 using Movie_Store_API.ViewModels;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Movie_Store_API.Controllers
 {
@@ -100,9 +94,8 @@ namespace Movie_Store_API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMovie([FromForm] MovieRequest request)
         {
-            var saveImage = await new FileHelpers("Static", _env).UploadImage(request.UploadImage);
-
-            if (saveImage)
+            var result = await _movieRepository.AddMovieAsync(request);
+            if (result != null)
             {
                 var responseMovie = await _movieRepository.AddMovieAsync(request);
                 //await _movieRepository.SaveChangesAsync();
