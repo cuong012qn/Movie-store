@@ -13,6 +13,7 @@ namespace Movie_Store_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProducerController : ControllerBase
     {
         private readonly IProducerRepository _producerRepository;

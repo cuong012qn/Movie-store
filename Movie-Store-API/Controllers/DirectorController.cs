@@ -9,6 +9,7 @@ namespace Movie_Store_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DirectorController : ControllerBase
     {
         private readonly IDirectorRepository _directorRepository;

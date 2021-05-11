@@ -8,6 +8,7 @@ namespace Movie_Store_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MovieController : Controller
     {
         private readonly IMovieRepository _movieRepository;

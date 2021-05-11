@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Movie_Store_API.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Movie_Store_API.Extensions;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Movie_Store_API.Extensions;
 using Movie_Store_API.Services.Interface;
-using Microsoft.AspNetCore.Http;
+using Movie_Store_API.ViewModels;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Movie_Store_API.Controllers
 {
@@ -31,7 +29,28 @@ namespace Movie_Store_API.Controllers
         [Authorize]
         public IActionResult GetValue()
         {
-            return Ok();
+            return Ok(new
+            {
+                message = "Authorize"
+            });
+        }
+
+        [Authorize]
+        [HttpPost("login/renew")]
+        public async Task<IActionResult> RenewToken()
+        {
+            string token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            var validToken = JwtHelpers.GetInstance(secretkey).IsValidToken(token);
+
+            string id = validToken.Claims.First(x => x.Type.Equals("id")).Value.ToString();
+
+            var user = await _userService.GetUserByIDAsync(id);
+
+            return Ok(new
+            {
+                token = JwtHelpers.GetInstance(secretkey).CreateToken(user)
+            });
         }
 
         [HttpPost("login")]
