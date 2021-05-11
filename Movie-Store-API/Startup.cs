@@ -16,6 +16,8 @@ using Movie_Store_API.Repository.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
+using System.IO;    
 
 namespace Movie_Store_API
 {
@@ -43,6 +45,7 @@ namespace Movie_Store_API
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IProducerRepository, ProducerRepository>();
             services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
 
             //services.AddControllers()
             //    .AddNewtonsoftJson(options => {
@@ -83,17 +86,24 @@ namespace Movie_Store_API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie_Store_API v1"));
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie_Store_API v1"));
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Static")),
+                RequestPath = "/Static"
+            });
 
 
             app.UseMiddleware<JwtMiddleware>();
 
-            app.UseMiddleware<StaticFilesMiddleware>();
+            //app.UseMiddleware<StaticFilesMiddleware>();
 
             app.UseHttpsRedirection();
 
