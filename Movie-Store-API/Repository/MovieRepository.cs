@@ -59,7 +59,7 @@ namespace Movie_Store_API.Repository
                     Title = movie.Title,
                     Directors = null,
                     Producer = null,
-                    ReleaseDate = movie.ReleaseDate,
+                    ReleaseDate = movie.ReleaseDate.ToString("dd-MM-yyyy"),
                     ImagePath = Path.Combine("Static", movie.Image)
                 };
             }
@@ -95,7 +95,7 @@ namespace Movie_Store_API.Repository
                     .Select(x => new DirectorResponse
                     {
                         ID = x.Director.ID,
-                        BirthDate = x.Director.BirthDate,
+                        BirthDate = x.Director.BirthDate.ToString("dd-MM-yyyy"),
                         FullName = x.Director.FullName,
                         Gender = x.Director.FullName,
                         Image = Path.Combine("Static", x.Director.Image),
@@ -107,7 +107,7 @@ namespace Movie_Store_API.Repository
                     ID = findMovie.ID,
                     Description = findMovie.Description,
                     Producer = null,
-                    ReleaseDate = findMovie.ReleaseDate,
+                    ReleaseDate = findMovie.ReleaseDate.ToString("dd-MM-yyyy"),
                     Title = findMovie.Title,
                     ImagePath = Path.Combine("Static", findMovie.Image),
                     Directors = findDirectors
@@ -125,8 +125,8 @@ namespace Movie_Store_API.Repository
                     ID = x.ID,
                     Description = x.Description,
                     Title = x.Title,
-                    ImagePath = x.Image,
-                    ReleaseDate = x.ReleaseDate,
+                    ImagePath = Path.Combine("Static", x.Image),
+                    ReleaseDate = x.ReleaseDate.ToString("dd-MM-yyyy"),
                     Producer = new ProducerResponse
                     {
                         ID = x.Producer.ID,
@@ -138,7 +138,7 @@ namespace Movie_Store_API.Repository
                     .Select(director => new DirectorResponse
                     {
                         ID = director.Director.ID,
-                        BirthDate = director.Director.BirthDate,
+                        BirthDate = director.Director.BirthDate.ToString("dd-MM-yyyy"),
                         FullName = director.Director.FullName,
                         Gender = director.Director.FullName,
                         Image = Path.Combine("Static", director.Director.Image),
@@ -192,7 +192,7 @@ namespace Movie_Store_API.Repository
                     Description = movieRequest.Description,
                     ImagePath = Path.Combine("Static", movieRequest.UploadImage.FileName),
                     Title = movieRequest.Title,
-                    ReleaseDate = movieRequest.ReleaseDate,
+                    ReleaseDate = movieRequest.ReleaseDate.ToString("dd-MM-yyyy"),
                     Directors = null,
                     Producer = null
                 };

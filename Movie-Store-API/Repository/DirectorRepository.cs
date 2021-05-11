@@ -48,7 +48,7 @@ namespace Movie_Store_API.Repository
                     return new DirectorResponse
                     {
                         ID = director.ID,
-                        BirthDate = director.BirthDate,
+                        BirthDate = director.BirthDate.ToString("dd-MM-yyyy"),
                         FullName = director.FullName,
                         Gender = director.Gender,
                         PlaceofBirth = director.PlaceofBirth,
@@ -77,7 +77,7 @@ namespace Movie_Store_API.Repository
                     {
                         ID = x.Movie.ID,
                         Description = x.Movie.Description,
-                        ReleaseDate = x.Movie.ReleaseDate,
+                        ReleaseDate = x.Movie.ReleaseDate.ToString("dd-MM-yyyy"),
                         Title = x.Movie.Title,
                         ImagePath = Path.Combine("Static", x.Movie.Image)
                     }).ToList();
@@ -85,7 +85,7 @@ namespace Movie_Store_API.Repository
                 return new DirectorResponse
                 {
                     ID = findDirector.ID,
-                    BirthDate = findDirector.BirthDate,
+                    BirthDate = findDirector.BirthDate.ToString("dd-MM-yyyy"),
                     FullName = findDirector.FullName,
                     Gender = findDirector.Gender,
                     PlaceofBirth = findDirector.PlaceofBirth,
@@ -109,7 +109,7 @@ namespace Movie_Store_API.Repository
                 .Select(x => new DirectorResponse
                 {
                     ID = x.ID,
-                    BirthDate = x.BirthDate,
+                    BirthDate = x.BirthDate.ToString("dd-MM-yyyy"),
                     FullName = x.FullName,
                     Gender = x.Gender,
                     PlaceofBirth = x.PlaceofBirth,

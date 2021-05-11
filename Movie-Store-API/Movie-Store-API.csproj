@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Movie_Store_API</RootNamespace>
+    <UserSecretsId>1cf4fce9-916f-46bd-a2d7-047ae6f36fb9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
