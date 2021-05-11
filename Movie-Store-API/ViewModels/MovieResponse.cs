@@ -21,8 +21,8 @@ namespace Movie_Store_API.ViewModels
         [Required]
         public string Description { get; set; }
 
-        [Required, DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
+        [Required]
+        public String ReleaseDate { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public ProducerResponse Producer { get; set; }

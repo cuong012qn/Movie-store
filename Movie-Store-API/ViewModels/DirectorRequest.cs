@@ -35,7 +35,7 @@ namespace Movie_Store_API.ViewModels
             return new DirectorResponse
             {
                 ID = director.ID,
-                BirthDate = director.BirthDate,
+                BirthDate = director.BirthDate.ToShortDateString(),
                 FullName = director.FullName,
                 Gender = director.Gender,
                 PlaceofBirth = director.PlaceofBirth,
