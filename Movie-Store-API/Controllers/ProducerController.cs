@@ -32,19 +32,7 @@ namespace Movie_Store_API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProducersByID(int id)
         {
-            var findProducer = await _producerRepository.GetProducerByIDAsync(id);
-
-            if (findProducer != null)
-            {
-                return StatusCode(StatusCodes.Status200OK, new
-                {
-                    success = true,
-                    response = findProducer
-                });
-            }
-
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                new { success = false, message = "Server error!" });
+            return StatusCode(StatusCodes.Status200OK, await _producerRepository.GetProducerByIDAsync(id));
         }
 
         [HttpPost]
@@ -57,49 +45,46 @@ namespace Movie_Store_API.Controllers
 
                 return StatusCode(StatusCodes.Status201Created, new
                 {
-                    success = true,
-                    message = "Added successful!",
                     response = responseProducer
                 });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status400BadRequest,
-                    new { success = false, message = "Bad request!" });
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { message = "Server error! Try again!" });
             }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveProducer(int id)
         {
-            await _producerRepository.RemoveProducerAsync(id);
-            await _producerRepository.SaveChangesAsync();
+            try
+            {
+                await _producerRepository.RemoveProducerAsync(id);
+                await _producerRepository.SaveChangesAsync();
 
-            return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error! Try again !" });
+            }
         }
 
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProducer(int id,
             [FromForm] ProducerRequest producerRequest)
         {
             try
             {
-                var responseProducer = await _producerRepository.UpdateProducerAsync(id, producerRequest);
-
-                //await _producerRepository.SaveChangesAsync();
-
-                return StatusCode(StatusCodes.Status200OK, 
-                    new { 
-                        success = true, 
-                        message = "Updated successful!", 
-                        response = responseProducer 
-                    });
+                await _producerRepository.UpdateProducerAsync(id, producerRequest);
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new { success = false, message = "Server error!" });
+                    new { message = "Server error!" });
             }
         }
     }

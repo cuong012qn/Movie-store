@@ -6,6 +6,7 @@ using Movie_Store_API.Services.Interface;
 using Movie_Store_API.ViewModels;
 using System.Threading.Tasks;
 using System.Linq;
+using Movie_Store_Data.Models;
 
 namespace Movie_Store_API.Controllers
 {
@@ -33,6 +34,23 @@ namespace Movie_Store_API.Controllers
             {
                 message = "Authorize"
             });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] User user)
+        {
+            if (user == null) return StatusCode(StatusCodes.Status400BadRequest);
+
+            try
+            {
+                await _userService.AddUserAsync(user);
+                await _userService.SaveChangesAsync();
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error!" });
+            }
         }
 
         [Authorize]
@@ -64,18 +82,12 @@ namespace Movie_Store_API.Controllers
 
                 return StatusCode(StatusCodes.Status200OK, new
                 {
-                    success = true,
-                    message = "Login successful, your token will expired in 20 minutes!",
-                    response = new UserResonpse
-                    {
-                        Username = validUser.Username,
-                        Token = getToken
-                    }
+                    token = getToken
                 });
             }
             else
             {
-                return StatusCode(StatusCodes.Status200OK, new { message = "Username or password is invalid!" });
+                return StatusCode(StatusCodes.Status200OK, new { success = false });
             }
         }
     }

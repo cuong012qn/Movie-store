@@ -7,6 +7,7 @@ using Movie_Store_API.ViewModels;
 using Movie_Store_Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Movie_Store_Data.Models;
+using System.IO;
 
 namespace Movie_Store_API.Repository
 {
@@ -44,15 +45,30 @@ namespace Movie_Store_API.Repository
                 .Include(x => x.Movies)
                 .SingleOrDefaultAsync(x => x.ID.Equals(id));
 
-            if (producer == null) return null;
-
-            return new ProducerResponse()
+            if (producer != null)
             {
-                ID = producer.ID,
-                FullName = producer.FullName,
-                IsOrganization = producer.IsOrganization,
-                Movies = producer.Movies
-            };
+                var moviesResponse = producer.Movies.Select(x => new MovieResponse
+                {
+                    ID = x.ID,
+                    Description = x.Description,
+                    Directors = null,
+                    ImagePath = Path.Combine("Static", x.Image),
+                    Producer = null,
+                    Title = x.Title,
+                    ReleaseDate = x.ReleaseDate.ToString("dd-MM-yyyy")
+                }).ToList();
+
+                if (producer == null) return null;
+
+                return new ProducerResponse()
+                {
+                    ID = producer.ID,
+                    FullName = producer.FullName,
+                    IsOrganization = producer.IsOrganization,
+                    Movies = moviesResponse
+                };
+            }
+            return null;
         }
 
         public async Task<List<ProducerResponse>> GetProducersAsync()
@@ -64,7 +80,16 @@ namespace Movie_Store_API.Repository
                     ID = x.ID,
                     FullName = x.FullName,
                     IsOrganization = x.IsOrganization,
-                    Movies = x.Movies
+                    Movies = x.Movies.Select(res => new MovieResponse
+                    {
+                        ID = res.ID,
+                        Description = res.Description,
+                        Directors = null,
+                        ImagePath = Path.Combine("Static", res.Image),
+                        Producer = null,
+                        Title = res.Title,
+                        ReleaseDate = res.ReleaseDate.ToString("dd-MM-yyyy")
+                    }).ToList()
                 }).ToListAsync();
         }
 
@@ -80,7 +105,8 @@ namespace Movie_Store_API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ProducerResponse> UpdateProducerAsync(int idProducer, 
+        public async Task UpdateProducerAsync(
+            int idProducer,
             ProducerRequest producerRequest)
         {
             var findProducer = await _context.Producers.SingleOrDefaultAsync(x => x.ID.Equals(idProducer));
@@ -92,16 +118,7 @@ namespace Movie_Store_API.Repository
 
                 _context.Producers.Update(findProducer);
                 await SaveChangesAsync();
-
-                return new ProducerResponse
-                {
-                    ID = findProducer.ID,
-                    FullName = findProducer.FullName,
-                    IsOrganization = findProducer.IsOrganization,
-                    Movies = findProducer.Movies
-                };
             }
-            return null;
         }
     }
 }

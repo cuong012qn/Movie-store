@@ -25,51 +25,43 @@ namespace Movie_Store_API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDirectors()
         {
-            _logger.LogInformation("GetDirectors");
             return Ok(await _directorRepository.GetDirectorsAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDirectorByID(int id)
         {
-            var getDirector = await _directorRepository.GetDirectorByIDAsync(id);
-            if (getDirector != null)
-            {
-                _logger.LogInformation("GetDirectorByID found obj with id {0}", id);
-                return Ok(getDirector);
-            }
-            _logger.LogInformation("GetDirectorByID not found obj with id {0}", id);
-            return Ok(new { success = false, message = "Not found!" });
+            return StatusCode(StatusCodes.Status200OK, await _directorRepository.GetDirectorByIDAsync(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddDirector([FromForm] DirectorRequest directorRequest)
         {
-            var response = await _directorRepository.AddDirectorAsync(directorRequest);
-            if (response == null) return StatusCode(StatusCodes.Status500InternalServerError,
-                new
-                {
-                    success = false,
-                    message = "Server error! Try again!"
-                });
-
-
-            return Ok(new
+            try
             {
-                success = true,
-                message = "Added sucessful",
-                response
-            });
+                var response = await _directorRepository.AddDirectorAsync(directorRequest);
+                return StatusCode(StatusCodes.Status201Created, response);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error! Try again!" });
+            }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDirector(
             int id,
             DirectorRequest directorRequest)
         {
-            await _directorRepository.UpdateProducerAsync(id, directorRequest);
-
-            return Ok();
+            try
+            {
+                await _directorRepository.UpdateProducerAsync(id, directorRequest);
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfull" });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error! try again!" });
+            }
         }
 
         [HttpDelete("{id}")]
@@ -79,20 +71,12 @@ namespace Movie_Store_API.Controllers
             {
                 await _directorRepository.RemoveDirectorAsync(id);
                 await _directorRepository.SaveChangesAsync();
-                return Ok(new
-                {
-                    success = true,
-                    message = "Remove successfully!"
-                });
+
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfull" });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new
-                    {
-                        success = false,
-                        message = "Server error! The id of director can not delete right now, please try again!"
-                    });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error! try again!" });
             }
         }
     }

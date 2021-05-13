@@ -27,6 +27,7 @@ namespace Movie_Store_API.Data
                 ID = Guid.NewGuid().ToString(),
                 FullName = "Admin user",
                 Username = "admin",
+                Email = "admin@admin.com",
                 Password = PasswordHelper.GetEncrypt("123")
             };
 

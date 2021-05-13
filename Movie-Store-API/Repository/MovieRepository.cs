@@ -24,46 +24,32 @@ namespace Movie_Store_API.Repository
             _env = env;
         }
 
-        public async Task<MovieResponse> AddMovieAsync(MovieRequest movieRequest)
+        public async Task AddMovieAsync(MovieRequest movieRequest)
         {
             //Find idProducer
             var producer = await _context.Producers.SingleOrDefaultAsync(x => x.ID.Equals(movieRequest.IDProducer));
-            if (producer == null) return null;
 
-            Movie movie = new Movie()
+            if (producer != null)
             {
-                ID = movieRequest.ID,
-                Description = movieRequest.Description,
-                IDProducer = movieRequest.IDProducer,
-                Image = movieRequest.UploadImage.FileName,
-                Title = movieRequest.Title,
-                ReleaseDate = movieRequest.ReleaseDate,
-            };
-
-            //Save image
-            var saveImage = await new FileHelpers("Static", _env).UploadImage(movieRequest.UploadImage);
-
-            if (saveImage)
-            {
-                await _context.Movies.AddAsync(movie);
-                await SaveChangesAsync();
-
-                var findDirector = await _context.MovieDirectors
-                    .Where(x => x.IDMovie.Equals(movie.ID))
-                    .Select(director => director.Director).ToListAsync();
-
-                return new MovieResponse
+                Movie movie = new Movie()
                 {
-                    ID = movie.ID,
-                    Description = movie.Description,
-                    Title = movie.Title,
-                    Directors = null,
-                    Producer = null,
-                    ReleaseDate = movie.ReleaseDate.ToString("dd-MM-yyyy"),
-                    ImagePath = Path.Combine("Static", movie.Image)
+                    ID = movieRequest.ID,
+                    Description = movieRequest.Description,
+                    IDProducer = movieRequest.IDProducer,
+                    Image = movieRequest.UploadImage.FileName,
+                    Title = movieRequest.Title,
+                    ReleaseDate = movieRequest.ReleaseDate,
                 };
+
+                //Save image
+                var saveImage = await new FileHelpers("Static", _env).UploadImage(movieRequest.UploadImage);
+
+                if (saveImage)
+                {
+                    await _context.Movies.AddAsync(movie);
+                    await SaveChangesAsync();
+                }
             }
-            else return null;
         }
 
         public async Task RemoveMovie(int idMovie)
@@ -153,11 +139,11 @@ namespace Movie_Store_API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<MovieResponse> UpdateMovieAsync(MovieRequest movieRequest)
+        public async Task UpdateMovieAsync(int idMovie, MovieRequest movieRequest)
         {
             var findMovie = await _context.Movies
                 .Include(x => x.Producer)
-                .SingleOrDefaultAsync(x => x.ID.Equals(movieRequest.ID));
+                .SingleOrDefaultAsync(x => x.ID.Equals(idMovie));
 
             if (findMovie != null)
             {
@@ -179,26 +165,7 @@ namespace Movie_Store_API.Repository
                 _context.Movies.Update(findMovie);
 
                 await SaveChangesAsync();
-
-                var findDirector = await _context
-                    .MovieDirectors
-                    .Where(x => x.IDMovie.Equals(movieRequest.ID))
-                    .Select(x => x.Director)
-                    .ToListAsync();
-
-                return new MovieResponse
-                {
-                    ID = movieRequest.ID,
-                    Description = movieRequest.Description,
-                    ImagePath = Path.Combine("Static", movieRequest.UploadImage.FileName),
-                    Title = movieRequest.Title,
-                    ReleaseDate = movieRequest.ReleaseDate.ToString("dd-MM-yyyy"),
-                    Directors = null,
-                    Producer = null
-                };
             }
-
-            return null;
         }
 
         public async Task AddDirectorAsync(int idMovie, int idDirector)

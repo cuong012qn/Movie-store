@@ -20,6 +20,6 @@ namespace Movie_Store_API.ViewModels
         public bool IsOrganization { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public List<Movie> Movies { get; set; }
+        public List<MovieResponse> Movies { get; set; }
     }
 }

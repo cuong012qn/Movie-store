@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store_API.Repository.Interface;
 using Movie_Store_API.ViewModels;
@@ -22,46 +23,35 @@ namespace Movie_Store_API.Controllers
         }
 
         [HttpPost("adddirector")]
-        public async Task<IActionResult> AddDirector([FromForm] int IDMovie,
+        public async Task<IActionResult> AddDirector(
+            [FromForm] int IDMovie,
             [FromForm] int IDDirector)
         {
             try
             {
                 await _movieRepository.AddDirectorAsync(IDMovie, IDDirector);
-                return Ok(
-                    new
-                    {
-                        sucess = true,
-                        message = "Added director successful!"
-                    });
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch
             {
                 return StatusCode(500,
-                    new { success = false, message = "Server error! Try again" });
+                    new { message = "Server error! Try again" });
             }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovieByID(int id)
         {
-            var getMovie = await _movieRepository.GetMovieByIDAsync(id);
-            if (getMovie == null)
-                return Ok(new { success = true, Movie = "Not found!" });
-
-            return Ok(new { sucess = true, response = getMovie });
+            return Ok(new { movie = await _movieRepository.GetMovieByIDAsync(id) });
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> UpdateMovie([FromForm] MovieRequest movieRequest)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMovie(int id, [FromForm] MovieRequest movieRequest)
         {
             try
             {
-                var response = await _movieRepository.UpdateMovieAsync(movieRequest);
-                if (response == null)
-                    return StatusCode(500, new { success = false, message = "Server error! Try again" });
-
-                return StatusCode(201, new { success = true, Movie = response });
+                await _movieRepository.UpdateMovieAsync(id, movieRequest);
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
             }
             catch
             {
@@ -78,7 +68,7 @@ namespace Movie_Store_API.Controllers
                 await _movieRepository.RemoveMovie(id);
                 await _movieRepository.SaveChangesAsync();
 
-                return NoContent();
+                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
             }
             catch
             {
@@ -95,21 +85,16 @@ namespace Movie_Store_API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMovie([FromForm] MovieRequest request)
         {
-            var result = await _movieRepository.AddMovieAsync(request);
-            if (result != null)
+            try
             {
-                var responseMovie = await _movieRepository.AddMovieAsync(request);
-                //await _movieRepository.SaveChangesAsync();
-
-                return Ok(new
-                {
-                    sucess = true,
-                    message = "Added successful!",
-                    response = responseMovie
-                });
+                await _movieRepository.AddMovieAsync(request);
+                return StatusCode(StatusCodes.Status201Created);
             }
-            return StatusCode(500,
-                new { success = false, message = "Server error! Try again!" });
+            catch
+            {
+                return StatusCode(500,
+                    new { success = false, message = "Server error! Try again!" });
+            }
         }
     }
 }

@@ -25,8 +25,12 @@ namespace Movie_Store_API.Services
 
         public async Task AddUserAsync(User user)
         {
-            user.ID = Guid.NewGuid().ToString();
-            await _context.Users.AddAsync(user);
+            var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Email.Equals(user.Email) || user.Username.Equals(user.Username));
+            if (findUser == null)
+            {
+                user.ID = Guid.NewGuid().ToString();
+                await _context.Users.AddAsync(user);
+            }
         }
 
         public async Task<string> AuthencationUserAsync(string username, string password, string token)
@@ -34,7 +38,7 @@ namespace Movie_Store_API.Services
             var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Username.Equals(username) && x.Password.Equals(password));
 
             if (findUser != null)
-                return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 20);
+                return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 300);
             return string.Empty;
         }
 

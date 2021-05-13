@@ -140,7 +140,7 @@ namespace Movie_Store_API.Repository
         /// <param name="idDirector">ID of Director</param>
         /// <param name="directorRequest">Director request</param>
         /// <returns>Director response</returns>
-        public async Task<DirectorResponse> UpdateProducerAsync(
+        public async Task UpdateProducerAsync(
             int idDirector,
             DirectorRequest directorRequest)
         {
@@ -156,10 +156,8 @@ namespace Movie_Store_API.Repository
                 if (directorRequest.UploadImage != null)
                 {
                     var filehelper = new FileHelpers("Static", _env);
-                    var deleteImage = filehelper.DeleteImage(findDirector.Image);
-                    if (!deleteImage) return null;
-                    var uploadImage = await filehelper.UploadImage(directorRequest.UploadImage);
-                    if (!uploadImage) return null;
+                    filehelper.DeleteImage(findDirector.Image);
+                    await filehelper.UploadImage(directorRequest.UploadImage);
 
                     findDirector.Image = directorRequest.UploadImage.FileName;
                 }
@@ -171,13 +169,7 @@ namespace Movie_Store_API.Repository
                 findDirector.PlaceofBirth = findDirector.PlaceofBirth;
 
                 await SaveChangesAsync();
-
-                return directorRequest.ToResponse(findDirector);
             }
-
-            //Not found Director with ID
-            //Return null
-            return null;
         }
     }
 }

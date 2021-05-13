@@ -16,7 +16,7 @@ namespace Movie_Store_API.Repository.Interface
 
         Task RemoveDirectorAsync(int idDirector);
 
-        Task<DirectorResponse> UpdateProducerAsync(
+        Task UpdateProducerAsync(
             int idDirector,
             DirectorRequest directorRequest);
 

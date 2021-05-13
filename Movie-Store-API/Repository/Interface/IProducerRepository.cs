@@ -16,7 +16,7 @@ namespace Movie_Store_API.Repository.Interface
 
         Task RemoveProducerAsync(int idProducer);
 
-        Task<ProducerResponse> UpdateProducerAsync(int idProducer, ProducerRequest producerRequest);
+        Task UpdateProducerAsync(int idProducer, ProducerRequest producerRequest);
 
         Task SaveChangesAsync();
     }

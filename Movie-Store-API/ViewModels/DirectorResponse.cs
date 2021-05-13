@@ -30,12 +30,4 @@ namespace Movie_Store_API.ViewModels
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<MovieResponse> Movies { get; set; }
     }
-
-    public class DateFormatConverter : IsoDateTimeConverter
-    {
-        public DateFormatConverter(string format)
-        {
-            DateTimeFormat = format;
-        }
-    }
 }
