@@ -30,19 +30,44 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _movieRepository.AddDirectorAsync(IDMovie, IDDirector);
-                return StatusCode(StatusCodes.Status201Created);
+                return StatusCode(StatusCodes.Status201Created, new
+                {
+                    message = "added successfully",
+                    success = true
+                });
             }
             catch
             {
                 return StatusCode(500,
-                    new { message = "Server error! Try again" });
+                    new
+                    {
+                        message = "Server error! Try again",
+                        success = false
+                    });
             }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovieByID(int id)
         {
-            return Ok(new { movie = await _movieRepository.GetMovieByIDAsync(id) });
+            var movie = await _movieRepository.GetMovieByIDAsync(id);
+
+            if (movie == null)
+                return StatusCode(StatusCodes.Status200OK,
+                    new
+                    {
+                        message = "Not found!",
+                        success = true
+                    });
+
+
+            return StatusCode(StatusCodes.Status200OK,
+                new
+                {
+                    message = "Found movie",
+                    success = true,
+                    movie
+                });
         }
 
         [HttpPut("{id}")]
@@ -51,12 +76,21 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _movieRepository.UpdateMovieAsync(id, movieRequest);
-                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
+                return StatusCode(StatusCodes.Status204NoContent,
+                    new
+                    {
+                        message = "Resource updated successfully",
+                        success = true
+                    });
             }
             catch
             {
                 return StatusCode(500,
-                    new { success = false, message = "Server error! Try again" });
+                    new
+                    {
+                        success = false,
+                        message = "Server error! Try again"
+                    });
             }
         }
 
@@ -68,18 +102,48 @@ namespace Movie_Store_API.Controllers
                 await _movieRepository.RemoveMovie(id);
                 await _movieRepository.SaveChangesAsync();
 
-                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
+                return StatusCode(StatusCodes.Status204NoContent,
+                    new
+                    {
+                        message = "Resource updated successfully",
+                        success = true
+                    });
             }
             catch
             {
-                return StatusCode(500, new { sucess = false, message = "Server error! Try again!" });
+                return StatusCode(500,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! Try again!"
+                    });
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetMovies()
         {
-            return Ok(await _movieRepository.GetMoviesAsync());
+            try
+            {
+                var movies = await _movieRepository.GetMoviesAsync();
+
+                return StatusCode(StatusCodes.Status200OK,
+                    new
+                    {
+                        message = movies.Count + " Movies",
+                        success = true,
+                        movies
+                    });
+            }
+            catch
+            {
+                return StatusCode(500,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! Try again!"
+                    });
+            }
         }
 
         [HttpPost]
@@ -88,12 +152,21 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _movieRepository.AddMovieAsync(request);
-                return StatusCode(StatusCodes.Status201Created);
+                return StatusCode(StatusCodes.Status201Created,
+                    new
+                    {
+                        message = "added successfully",
+                        success = true
+                    });
             }
             catch
             {
                 return StatusCode(500,
-                    new { success = false, message = "Server error! Try again!" });
+                    new
+                    {
+                        message = "Server error! Try again!",
+                        success = false
+                    });
             }
         }
     }

@@ -32,7 +32,8 @@ namespace Movie_Store_API.Controllers
         {
             return Ok(new
             {
-                message = "Authorize"
+                message = "Authorize",
+                success = true
             });
         }
 
@@ -45,11 +46,20 @@ namespace Movie_Store_API.Controllers
             {
                 await _userService.AddUserAsync(user);
                 await _userService.SaveChangesAsync();
-                return StatusCode(StatusCodes.Status201Created);
+                return StatusCode(StatusCodes.Status201Created,
+                    new
+                    {
+                        message = "Register successfully",
+                        success = true
+                    });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    message = "Server error!",
+                    success = false
+                });
             }
         }
 
@@ -78,16 +88,18 @@ namespace Movie_Store_API.Controllers
 
             if (validUser != null)
             {
-                string getToken = JwtHelpers.GetInstance(secretkey).CreateToken(validUser);
+                string getToken = JwtHelpers.GetInstance(secretkey).CreateToken(validUser, 60);
 
                 return StatusCode(StatusCodes.Status200OK, new
                 {
+                    message ="Authorized, your token will expired in 60 minutes",
+                    success = true,
                     token = getToken
                 });
             }
             else
             {
-                return StatusCode(StatusCodes.Status200OK, new { success = false });
+                return StatusCode(StatusCodes.Status200OK, new { success = false, token = "" });
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Movie_Store_API.Repository.Interface
 
         Task<ProducerResponse> GetProducerByIDAsync(int id);
 
-        Task<ProducerResponse> AddProducerAsync(ProducerRequest producerRequest);
+        Task AddProducerAsync(ProducerRequest producerRequest);
 
         Task RemoveProducerAsync(int idProducer);
 

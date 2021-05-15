@@ -38,7 +38,7 @@ namespace Movie_Store_API.Services
             var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Username.Equals(username) && x.Password.Equals(password));
 
             if (findUser != null)
-                return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 300);
+                return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 60);
             return string.Empty;
         }
 

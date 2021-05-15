@@ -20,7 +20,7 @@ namespace Movie_Store_API.Repository
             _context = context;
         }
 
-        public async Task<ProducerResponse> AddProducerAsync(ProducerRequest producerRequest)
+        public async Task AddProducerAsync(ProducerRequest producerRequest)
         {
             var producer = new Producer
             {
@@ -30,13 +30,6 @@ namespace Movie_Store_API.Repository
 
             await _context.Producers.AddAsync(producer);
             await SaveChangesAsync();
-
-            return new ProducerResponse
-            {
-                ID = producer.ID,
-                IsOrganization = producer.IsOrganization,
-                FullName = producer.FullName
-            };
         }
 
         public async Task<ProducerResponse> GetProducerByIDAsync(int id)

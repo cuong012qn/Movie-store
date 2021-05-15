@@ -26,13 +26,50 @@ namespace Movie_Store_API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProducers()
         {
-            return StatusCode(StatusCodes.Status200OK, await _producerRepository.GetProducersAsync());
+            try
+            {
+                var producer = await _producerRepository.GetProducersAsync();
+
+                return StatusCode(StatusCodes.Status200OK,
+                    new
+                    {
+                        message = producer.Count + " producer",
+                        success = true,
+                        producer
+                    });
+            }
+            catch
+            {
+                return StatusCode(500,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! Try again!"
+                    });
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProducersByID(int id)
         {
-            return StatusCode(StatusCodes.Status200OK, await _producerRepository.GetProducerByIDAsync(id));
+            var producer = await _producerRepository.GetProducerByIDAsync(id);
+
+            if (producer == null)
+                return StatusCode(StatusCodes.Status200OK,
+                    new
+                    {
+                        message = "Not found!",
+                        success = true
+                    });
+
+
+            return StatusCode(StatusCodes.Status200OK,
+                new
+                {
+                    message = "Found producer",
+                    success = true,
+                    producer
+                });
         }
 
         [HttpPost]
@@ -40,18 +77,21 @@ namespace Movie_Store_API.Controllers
         {
             try
             {
-                var responseProducer = await _producerRepository.AddProducerAsync(producerRequest);
-                //await _producerRepository.SaveChangesAsync();
-
+                await _producerRepository.AddProducerAsync(producerRequest);
                 return StatusCode(StatusCodes.Status201Created, new
                 {
-                    response = responseProducer
+                    message = "added successfully",
+                    success = true
                 });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new { message = "Server error! Try again!" });
+                return StatusCode(500,
+                    new
+                    {
+                        message = "Server error! Try again",
+                        success = false
+                    });
             }
         }
 
@@ -63,11 +103,21 @@ namespace Movie_Store_API.Controllers
                 await _producerRepository.RemoveProducerAsync(id);
                 await _producerRepository.SaveChangesAsync();
 
-                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
+                return StatusCode(StatusCodes.Status204NoContent,
+                    new
+                    {
+                        message = "Resource updated successfully",
+                        success = true
+                    });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Server error! Try again !" });
+                return StatusCode(500,
+                     new
+                     {
+                         success = false,
+                         message = "Server error! Try again!"
+                     });
             }
         }
 
@@ -79,12 +129,21 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _producerRepository.UpdateProducerAsync(id, producerRequest);
-                return StatusCode(StatusCodes.Status204NoContent, new { message = "Resource updated successfully" });
+                return StatusCode(StatusCodes.Status204NoContent,
+                    new
+                    {
+                        message = "Resource updated successfully",
+                        success = true
+                    });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new { message = "Server error!" });
+                return StatusCode(500,
+                    new
+                    {
+                        success = false,
+                        message = "Server error! Try again"
+                    });
             }
         }
     }

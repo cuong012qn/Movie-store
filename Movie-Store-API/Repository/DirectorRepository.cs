@@ -26,7 +26,7 @@ namespace Movie_Store_API.Repository
             _env = env;
         }
 
-        public async Task<DirectorResponse> AddDirectorAsync(DirectorRequest directorRequest)
+        public async Task AddDirectorAsync(DirectorRequest directorRequest)
         {
             if (directorRequest.UploadImage != null)
             {
@@ -44,21 +44,9 @@ namespace Movie_Store_API.Repository
 
                     _movieDBContext.Directors.Add(director);
                     await SaveChangesAsync();
-
-                    return new DirectorResponse
-                    {
-                        ID = director.ID,
-                        BirthDate = director.BirthDate.ToString("dd-MM-yyyy"),
-                        FullName = director.FullName,
-                        Gender = director.Gender,
-                        PlaceofBirth = director.PlaceofBirth,
-                        Image = Path.Combine("Static", director.Image),
-                        Movies = null
-                    };
                 }
 
             }
-            return null;
         }
 
         public async Task<DirectorResponse> GetDirectorByIDAsync(int id)

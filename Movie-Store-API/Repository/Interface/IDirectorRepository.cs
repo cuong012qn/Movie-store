@@ -12,7 +12,7 @@ namespace Movie_Store_API.Repository.Interface
 
         Task<DirectorResponse> GetDirectorByIDAsync(int id);
 
-        Task<DirectorResponse> AddDirectorAsync(DirectorRequest directorRequest);
+        Task AddDirectorAsync(DirectorRequest directorRequest);
 
         Task RemoveDirectorAsync(int idDirector);
 
