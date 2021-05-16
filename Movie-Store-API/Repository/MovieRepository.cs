@@ -46,6 +46,7 @@ namespace Movie_Store_API.Repository
 
                 if (saveImage)
                 {
+                    Console.WriteLine("Added image");
                     await _context.Movies.AddAsync(movie);
                     await SaveChangesAsync();
                 }

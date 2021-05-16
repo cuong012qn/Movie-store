@@ -28,14 +28,14 @@ namespace Movie_Store_API.Controllers
         {
             try
             {
-                var producer = await _producerRepository.GetProducersAsync();
+                var producers = await _producerRepository.GetProducersAsync();
 
                 return StatusCode(StatusCodes.Status200OK,
                     new
                     {
-                        message = producer.Count + " producer",
+                        message = producers.Count + " producer",
                         success = true,
-                        producer
+                        producers
                     });
             }
             catch

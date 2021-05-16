@@ -6,6 +6,7 @@ using Movie_Store_Data.Data;
 using Movie_Store_Data.Models;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Movie_Store_API.Services
 {
@@ -25,17 +26,18 @@ namespace Movie_Store_API.Services
 
         public async Task AddUserAsync(User user)
         {
-            var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Email.Equals(user.Email) || user.Username.Equals(user.Username));
-            if (findUser == null)
+            var finduser = _context.Users.Where(x => x.Username.Equals(user.Username) || x.Email.Equals(user.Email));
+            if (finduser.Count() == 0)
             {
                 user.ID = Guid.NewGuid().ToString();
                 await _context.Users.AddAsync(user);
             }
+            else throw new Exception("Duplicate user");
         }
 
         public async Task<string> AuthencationUserAsync(string username, string password, string token)
         {
-            var findUser = await _context.Users.SingleOrDefaultAsync(x => x.Username.Equals(username) && x.Password.Equals(password));
+            var findUser = await _context.Users.FirstOrDefaultAsync(x => x.Username.Equals(username) && x.Password.Equals(password));
 
             if (findUser != null)
                 return JwtHelpers.GetInstance(secretkey).CreateToken(findUser, 60);

@@ -10,7 +10,7 @@ namespace Movie_Store_API.Extensions
 {
     public class FileHelpers
     {
-        private readonly string Folder = string.Empty;
+        private readonly string Folder = "Static";
         private readonly IWebHostEnvironment env;
 
         public FileHelpers(string folder, IWebHostEnvironment env)
@@ -22,6 +22,7 @@ namespace Movie_Store_API.Extensions
         public async Task<bool> UploadImage(IFormFile file)
         {
             string filePath = Path.Combine(env.ContentRootPath, Folder, file.FileName);
+            Console.WriteLine(filePath);
             try
             {
                 using (Stream stream = new FileStream(filePath, FileMode.Create))
@@ -30,8 +31,9 @@ namespace Movie_Store_API.Extensions
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

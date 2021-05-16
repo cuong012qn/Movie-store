@@ -7,6 +7,7 @@ using Movie_Store_API.ViewModels;
 using System.Threading.Tasks;
 using System.Linq;
 using Movie_Store_Data.Models;
+using System;
 
 namespace Movie_Store_API.Controllers
 {
@@ -53,8 +54,9 @@ namespace Movie_Store_API.Controllers
                         success = true
                     });
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     message = "Server error!",
