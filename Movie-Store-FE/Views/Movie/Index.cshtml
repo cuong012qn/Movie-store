@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<Movie_Store_FE.ViewModels.Movie>
+@{ 
+    string apiPath = ViewBag.Api as string;
+} 
+
+<a asp-action="Create" asp-controller="Movie">
+    <h4>Create</h4>
+</a>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3">
+            <div class="card">
+                <a asp-action="Details" asp-route-id="@item.ID">
+                    @{ 
+                        string img = System.IO.Path.Combine(apiPath, item.ImagePath);
+                    }
+                    <img class="card-img-top img-fluid img-thumbnail" src="@img">
+                </a>
+                <div class="card-header">
+                    <a asp-action="Details" asp-route-id="@item.ID">
+                        <h3>@item.Title</h3>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">@item.ReleaseDate</p>
+                </div>
+
+                <div class="text-right">
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID">Remove</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

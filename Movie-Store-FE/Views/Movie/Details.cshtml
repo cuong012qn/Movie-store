@@ -1,0 +1,47 @@
+﻿
+@model Movie_Store_FE.ViewModels.Movie
+
+@{
+    string apiPath = ViewBag.Api as string;
+}
+
+<div class="row">
+    <div class="col-sm-3">
+        @{
+            string img = System.IO.Path.Combine(apiPath, Model.ImagePath);
+        }
+        <img class="img-fluid img-thumbnail" src="@img" />
+    </div>
+    <div class="col-sm-9">
+        <h3 class="text-uppercase font-weight-bold">@Model.Title</h3>
+        <h4>@Model.Producer.</h4>
+        <p>@Model.ReleaseDate</p>
+        <p>@Model.Description</p>
+    </div>
+
+    <h3>Directors <a asp-action="Create" asp-controller="MovieDirector" asp-route-IDMovie="@Model.ID">Add Director</a></h3>
+
+    <div class="card-deck">
+        @if (Model.Directors.Count > 0)
+            @foreach (var item in Model.Directors)
+            {
+                <div class="card">
+                    @{
+                        string imgDirector = System.IO.Path.Combine(apiPath, item.Image);
+                    }
+                    <img class="card-img-top img-fluid img-thumbnail" src="@imgDirector" />
+                    <div class="card-body">
+                        <h3>@item.FullName</h3>
+                        <h5>Date of birth: @item.BirthDate</h5>
+
+                        <form method="post">
+                            <input type="submit" asp-action="Delete"
+                                   asp-route-IDDirector="@item.ID"
+                                   asp-route-IDMovie="@Model.ID" value="Delete" class="btn btn-primary"
+                                   asp-controller="MovieDirector" />
+                        </form>
+                    </div>
+                </div>
+            }
+    </div>
+</div>

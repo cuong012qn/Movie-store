@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Movie_Store_FE.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Movie_Store_FE.ApiClient.Interface;
+using Movie_Store_FE.Extensions;
+using Movie_Store_Data.Models;
+using Microsoft.IdentityModel.Logging;
 
 namespace Movie_Store_FE.Controllers
 {
@@ -35,21 +37,45 @@ namespace Movie_Store_FE.Controllers
             this.userApiClient = userApiClient;
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(User user)
+        {
+            user.Password = PasswordHelper.GetEncrypt(user.Password);
+            var result = await userApiClient.Register(user);
+            if (result.Success)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError("", "Can not register right now! Try again!");
+            return View("");
+        }
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(User user)
         {
-            //string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5MTFhYTQyLTJlZjgtNGUxZi05ZDc0LWI4YTYyMWM0OWJkNyIsInVuaXF1ZV9uYW1lIjoiYWRtaW4iLCJuYmYiOjE2MjA5MjYzODcsImV4cCI6MTYyMDkyNzU4NywiaWF0IjoxNjIwOTI2Mzg3fQ.KFfRe7q4jRmFzQdSWzm-6H6XltOlcFFWsw8hrLCllLY";
+            ModelState.Remove("Email");
+            ModelState.Remove("FullName");
+
+            //Encrypt password
+            user.Password = PasswordHelper.GetEncrypt(user.Password);
 
             var response = await userApiClient.Authencate(user);
 
             if (response.Success)
             {
-
                 var userPrincipal = IsValidToken(response.Token);
 
                 var authProperties = new AuthenticationProperties
@@ -67,11 +93,21 @@ namespace Movie_Store_FE.Controllers
                     );
                 return RedirectToAction("Index", "User");
             }
-            return View(nameof(Login));
+
+            ModelState.AddModelError("", "Login fail! Username or password is incorrect");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "User");
         }
 
         public ClaimsPrincipal IsValidToken(string token)
         {
+            IdentityModelEventSource.ShowPII = true;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey"));
             var claims = tokenHandler.ValidateToken(token, new TokenValidationParameters

@@ -13,4 +13,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Movie-Store-Data\Movie-Store-Data.csproj" />
+  </ItemGroup>
+
 </Project>

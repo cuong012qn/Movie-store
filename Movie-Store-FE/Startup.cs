@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Movie_Store_FE.ApiClient.Interface;
 using Movie_Store_FE.ApiClient;
+using Microsoft.AspNetCore.Http;
 
 namespace Movie_Store_FE
 {
@@ -27,6 +28,7 @@ namespace Movie_Store_FE
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+            services.AddHttpContextAccessor();
 
             services.AddSession(options =>
             {
@@ -38,7 +40,11 @@ namespace Movie_Store_FE
                 options.LoginPath = "/User/Login";
             });
 
+            //services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IMovieApiClient, MovieApiClient>();
+            services.AddTransient<IProducerApiClient, ProducerApiClient>();
+            services.AddTransient<IDirectorApiClient, DirectorApiClient>();
 
             services.AddControllersWithViews();
         }

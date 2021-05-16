@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Movie_Store_FE.ViewModels
 {
-    public class UserResponse : BaseResponse
+    public class DirectorRequest
     {
-        public string Token { get; set; }
     }
 }
