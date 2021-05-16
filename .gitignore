@@ -3,3 +3,4 @@
 /.vs
 **/Migrations
 /Movie-Store-API/Properties/PublishProfiles
+**/appsettings.json
