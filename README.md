@@ -1,14 +1,14 @@
 #Target Dotnet Core 5.0
 #Package
 -API
-Microsoft.AspNetCore.Authentication.JwtBearer@5.0.0
-Microsoft.AspNetCore.Mvc.NewtonsoftJson@5.0.0
-Microsoft.EntityFrameworkCore@5.0.0
-Microsoft.EntityFrameworkCore.Design@5.0.0
-Microsoft.EntityFrameworkCore.SqlServer@5.0.0
-Microsoft.EntityFrameworkCore.Tools@5.0.0
-Swashbuckle.AspNetCore@5.6.3
-
+Microsoft.AspNetCore.Authentication.JwtBearer@5.0.0  
+Microsoft.AspNetCore.Mvc.NewtonsoftJson@5.0.0  
+Microsoft.EntityFrameworkCore@5.0.0  
+Microsoft.EntityFrameworkCore.Design@5.0.0  
+Microsoft.EntityFrameworkCore.SqlServer@5.0.0  
+Microsoft.EntityFrameworkCore.Tools@5.0.0  
+Swashbuckle.AspNetCore@5.6.3  
+  
 -Data
 Microsoft.AspNetCore.Http.Features@5.0.0
 Microsoft.EntityFrameworkCore.Design@5.0.0
