@@ -11,6 +11,9 @@ Add appsettings.json
     }
   },
   "Secretkey": "Your secret key",
-  "Api": "your host
+  "Api": "your host",
+  "ConnectionStrings": {
+    "MovieDBContextConnection": "Server=Name server;Database=DBName;"
+  },
 }
 ```
