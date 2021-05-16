@@ -1,5 +1,6 @@
 # Movie-store
 Add appsettings.json
+```json
 {
   "AllowedHosts": "*",
   "Logging": {
@@ -12,3 +13,4 @@ Add appsettings.json
   "Secretkey": "Your secret key",
   "Api": "your host
 }
+```
