@@ -16,13 +16,13 @@ namespace Movie_Store_Data.Models
         [Required]
         public string FullName { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
         public string Username { get; set; }
 
-        [Required, JsonIgnore]
+        [Required, JsonIgnore, DataType(DataType.Password)]
         public string Password { get; set; }
 
         public string Token { get; set; }
