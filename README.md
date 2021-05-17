@@ -46,3 +46,10 @@ Add appsettings.json
   },
 }
 ```
+Create seed Model\
+Move -> Movie-Store-Data\
+Create appsettings.json\
+Run command: \
+dotnet ef migrations add InitalDB\
+dotnet ef database update\
+-> Copy appsettings.json form Data to API -> Run Movie-Store-API first time for seed data
