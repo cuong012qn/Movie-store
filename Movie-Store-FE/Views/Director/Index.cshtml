@@ -1,0 +1,68 @@
+﻿
+@model List<Director>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                FullName
+            </th>
+            <th>
+                BirthDate
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Gender
+            <th>
+                PlaceofBirth
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceofBirth)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+
+        @*@{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }*@
+
+        @*<div class="float-right">
+            <a class="btn btn-primary @prevDisabled"
+               asp-action="List" asp-controller="Director"
+               asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+            <a class="btn btn-primary @nextDisabled"
+               asp-action="List" asp-controller="Director"
+               asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+        </div>*@
+    </tbody>
+</table>

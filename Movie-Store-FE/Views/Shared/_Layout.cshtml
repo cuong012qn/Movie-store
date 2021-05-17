@@ -30,6 +30,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Movie</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Director" asp-action="Index">Director</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Producer" asp-action="Index">Producer</a>
+                        </li>
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
