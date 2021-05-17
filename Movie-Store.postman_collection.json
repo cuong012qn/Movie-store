@@ -1,0 +1,717 @@
+{
+	"info": {
+		"_postman_id": "ddc0111f-e456-4a39-bc36-3ad5c12af3cc",
+		"name": "Movie-Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Producer",
+			"item": [
+				{
+					"name": "Get all Producers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODA3MywiZXhwIjoxNjIxMjYxNjczLCJpYXQiOjE2MjEyNTgwNzN9.0pJAu44NHwKtsDcAi0gbvjRCBuasrMY1tJS1bd3wSOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/producer",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"producer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProducerByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODA3MywiZXhwIjoxNjIxMjYxNjczLCJpYXQiOjE2MjEyNTgwNzN9.0pJAu44NHwKtsDcAi0gbvjRCBuasrMY1tJS1bd3wSOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/producer/5",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"producer",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddProducer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODA3MywiZXhwIjoxNjIxMjYxNjczLCJpYXQiOjE2MjEyNTgwNzN9.0pJAu44NHwKtsDcAi0gbvjRCBuasrMY1tJS1bd3wSOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "FullName",
+									"value": "Test Producer",
+									"type": "text"
+								},
+								{
+									"key": "IsOrganization",
+									"value": "False",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/producer/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"producer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveProducer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODA3MywiZXhwIjoxNjIxMjYxNjczLCJpYXQiOjE2MjEyNTgwNzN9.0pJAu44NHwKtsDcAi0gbvjRCBuasrMY1tJS1bd3wSOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/producer/3",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"producer",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProducer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODA3MywiZXhwIjoxNjIxMjYxNjczLCJpYXQiOjE2MjEyNTgwNzN9.0pJAu44NHwKtsDcAi0gbvjRCBuasrMY1tJS1bd3wSOQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "Updated",
+									"type": "text"
+								},
+								{
+									"key": "IsOrganization",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/producer/3",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"producer",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "Add Director",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "IDMovie",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "IDDirector",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/movie/adddirector",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								"adddirector"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Movies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/movie",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMovieByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/movie/1",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "not thing",
+									"type": "text"
+								},
+								{
+									"key": "releaseDate",
+									"value": "2015-05-05",
+									"type": "text"
+								},
+								{
+									"key": "uploadImage",
+									"type": "file",
+									"src": "/C:/Users/cuong/Desktop/shop-cake/shop-cake/wwwroot/image/slide/banner2.jpg"
+								},
+								{
+									"key": "IDProducer",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/movie",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "test updated",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "edited",
+									"type": "text"
+								},
+								{
+									"key": "releaseDate",
+									"value": "2015-05-05",
+									"type": "text"
+								},
+								{
+									"key": "IDProducer",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/movie/9",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/movie/9",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Director",
+			"item": [
+				{
+					"name": "Get all Director",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/director",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"director"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Director",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "FullName",
+									"value": "hi",
+									"type": "text"
+								},
+								{
+									"key": "BirthDate",
+									"value": "2004-02-19",
+									"type": "text"
+								},
+								{
+									"key": "UploadImage",
+									"type": "file",
+									"src": "/C:/Users/cuong/Desktop/img-Movie/hIuDik6KDmHLrqZWxBVdXzUw1kq.jpg"
+								},
+								{
+									"key": "Gender",
+									"value": "Female",
+									"type": "text"
+								},
+								{
+									"key": "PlaceofBirth",
+									"value": "Marbella, Málaga, Andalusia, Spain",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/director",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"director"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveDirector",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/director/10",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"director",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDirector",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Fullname",
+									"value": "updated",
+									"type": "text"
+								},
+								{
+									"key": "birthDate",
+									"value": "2004-02-19",
+									"type": "text"
+								},
+								{
+									"key": "Gender",
+									"value": "Female",
+									"type": "text"
+								},
+								{
+									"key": "PlaceofBirth",
+									"value": "ed",
+									"type": "text"
+								},
+								{
+									"key": "UploadImage",
+									"type": "file",
+									"src": "/C:/Users/cuong/Desktop/img-Movie/yzfxLMcBMusKzZp9f1Z9Ags8WML.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/api/director/10",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"director",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDirectorByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkY2RjNjgwLWM1YWEtNDVhMC04YTFjLWJjZGFkOGZkMTQ2MiIsInVuaXF1ZV9uYW1lIjoiY3VvbmcwMTJxbiIsIm5iZiI6MTYyMTI1ODM0NCwiZXhwIjoxNjIxMjYxOTQ0LCJpYXQiOjE2MjEyNTgzNDR9.dpe_ZFvGPXkD3fxIOawoiidvhajip_bQofJj8L6A2vA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}/api/director/2",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"director",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Get token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"cuong012qn\",\r\n    \"password\" :\"19711B9A35735E677B499A567BB17E5C\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IP}}/api/user/login",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Fullname\" : \"Vu Cuong\",\r\n    \"Email\" : \"admin@cuong.com\",\r\n    \"Username\" : \"cuong012qn\",\r\n    \"Password\" : \"7bf05b341f1d1a64a8dad0c99c81b52a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IP}}:{{Port}}/api/user/register",
+							"host": [
+								"{{IP}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
