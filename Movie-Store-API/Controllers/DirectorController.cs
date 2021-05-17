@@ -97,7 +97,7 @@ namespace Movie_Store_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDirector(
             int id,
-            DirectorRequest directorRequest)
+         [FromForm] DirectorRequest directorRequest)
         {
             try
             {
