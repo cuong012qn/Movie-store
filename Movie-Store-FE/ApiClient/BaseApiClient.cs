@@ -26,7 +26,7 @@ namespace Movie_Store_FE.ApiClient
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task PostAysnc(string url, HttpContent httpContent)
+        public async Task PostAsync(string url, HttpContent httpContent)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -52,6 +52,40 @@ namespace Movie_Store_FE.ApiClient
 
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                return (T)JsonConvert.DeserializeObject(body, typeof(T));
+            }
+
+            return default(T);
+        }
+
+        public async Task<T> RemoveAsync<T>(string url)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration.GetValue<string>("Api"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.DeleteAsync(url);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                return (T)JsonConvert.DeserializeObject(body, typeof(T));
+            }
+
+            return default(T);
+        }
+
+        public async Task<T> UpdateAsync<T>(string url, HttpContent content)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration.GetValue<string>("Api"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.PutAsync(url, content);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
                 var body = await response.Content.ReadAsStringAsync();
                 return (T)JsonConvert.DeserializeObject(body, typeof(T));

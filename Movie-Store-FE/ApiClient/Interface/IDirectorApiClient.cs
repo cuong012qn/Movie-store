@@ -6,7 +6,7 @@ using Movie_Store_FE.ViewModels;
 
 namespace Movie_Store_FE.ApiClient.Interface
 {
-    interface IDirectorApiClient
+    public interface IDirectorApiClient
     {
         Task<DirectorResponse> GetDirectors();
 

@@ -13,5 +13,11 @@ namespace Movie_Store_FE.ApiClient.Interface
         Task<MovieResponse> GetMovie(int id);
 
         Task AddMovie(MovieRequest movie);
+
+        Task AddDirector(int idMovie, int idDirector);
+
+        Task RemoveMovie(int id);
+
+        Task UpdateMovie(int id, MovieRequest movieRequest);
     }
 }

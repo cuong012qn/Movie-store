@@ -102,12 +102,7 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _directorRepository.UpdateProducerAsync(id, directorRequest);
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch
             {
@@ -128,12 +123,7 @@ namespace Movie_Store_API.Controllers
                 await _directorRepository.RemoveDirectorAsync(id);
                 await _directorRepository.SaveChangesAsync();
 
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch
             {

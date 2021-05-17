@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store_API.Repository.Interface;
 using Movie_Store_API.ViewModels;
+using System;
 using System.Threading.Tasks;
 
 namespace Movie_Store_API.Controllers
@@ -76,15 +77,11 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _movieRepository.UpdateMovieAsync(id, movieRequest);
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(500,
                     new
                     {
@@ -102,12 +99,7 @@ namespace Movie_Store_API.Controllers
                 await _movieRepository.RemoveMovie(id);
                 await _movieRepository.SaveChangesAsync();
 
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch
             {

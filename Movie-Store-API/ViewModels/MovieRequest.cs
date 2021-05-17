@@ -16,7 +16,6 @@ namespace Movie_Store_API.ViewModels
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public IFormFile UploadImage { get; set; }
 
         [Required]

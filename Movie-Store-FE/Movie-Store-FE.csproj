@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Movie_Store_FE</RootNamespace>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <UserSecretsId>dcc2f8dd-ba55-45be-8761-25f09cbcc504</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

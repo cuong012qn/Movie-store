@@ -28,7 +28,6 @@ namespace Movie_Store_FE.ViewModels
         [Required]
         public string ImagePath { get; set; }
 
-        [Required]
         public IFormFile UploadImage { get; set; }
 
         [Required]

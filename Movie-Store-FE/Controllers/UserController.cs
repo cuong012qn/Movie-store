@@ -117,7 +117,7 @@ namespace Movie_Store_FE.Controllers
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                ClockSkew = TimeSpan.Zero
+                //ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
 
             return claims;

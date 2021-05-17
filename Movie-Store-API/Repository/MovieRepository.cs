@@ -149,13 +149,16 @@ namespace Movie_Store_API.Repository
             if (findMovie != null)
             {
                 //Check equals name
-                if (!movieRequest.UploadImage.Name.Equals(findMovie.Image))
+                if (movieRequest.UploadImage != null)
                 {
-                    var filehelper = new FileHelpers("Static", _env);
-                    filehelper.DeleteImage(findMovie.Image);
-                    await filehelper.UploadImage(movieRequest.UploadImage);
+                    if (!movieRequest.UploadImage.Name.Equals(findMovie.Image))
+                    {
+                        var filehelper = new FileHelpers("Static", _env);
+                        filehelper.DeleteImage(findMovie.Image);
+                        await filehelper.UploadImage(movieRequest.UploadImage);
 
-                    findMovie.Image = movieRequest.UploadImage.FileName;
+                        findMovie.Image = movieRequest.UploadImage.FileName;
+                    }
                 }
 
                 findMovie.Description = movieRequest.Description;

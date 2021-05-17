@@ -1,0 +1,64 @@
+﻿
+
+@model IEnumerable<Director>
+
+@{
+    int? IDMovie = ViewData["IDMovie"] as int?;
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceofBirth)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceofBirth)
+                </td>
+                <td>
+                    <form asp-action="AddDirector" method="post">
+                        <button type="submit" class="btn btn-outline-primary" 
+                                asp-route-IDDirector="@item.ID"
+                                asp-route-IDMovie="@IDMovie">Add</button> |
+                    </form>
+                    <a asp-action="Details" asp-controller="Director" asp-route-id="@item.ID">Details</a> |
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

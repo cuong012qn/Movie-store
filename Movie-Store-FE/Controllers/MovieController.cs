@@ -20,16 +20,42 @@ namespace Movie_Store_FE.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieApiClient movieApiClient;
+        private readonly IDirectorApiClient directorApiClient;
         private readonly IProducerApiClient producerApiClient;
         private readonly IConfiguration configuration;
 
         public MovieController(IMovieApiClient movieApiClient,
+            IDirectorApiClient directorApiClient,
             IProducerApiClient producerApiClient,
             IConfiguration configuration)
         {
             this.movieApiClient = movieApiClient;
+            this.directorApiClient = directorApiClient;
             this.producerApiClient = producerApiClient;
             this.configuration = configuration;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddDirector(int idMovie)
+        {
+            ViewData["IDMovie"] = idMovie;
+            return View(await GetDirectorsDistinct(idMovie));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddDirector(int idMovie, int idDirector)
+        {
+            await movieApiClient.AddDirector(idMovie, idDirector);
+            return RedirectToAction("Index", "Movie");
+        }
+
+        public async Task<List<Director>> GetDirectorsDistinct(int IDMovie)
+        {
+            var director = await directorApiClient.GetDirectors();
+            var movie = await movieApiClient.GetMovie(IDMovie);
+           
+            return director.Directors.Except(movie.Movie.Directors).ToList();
         }
 
         public async Task<IActionResult> Index()
@@ -57,14 +83,12 @@ namespace Movie_Store_FE.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-
             ViewBag.Api = configuration.GetValue<string>("Api");
             var response = await movieApiClient.GetMovie(id);
             if (response != null)
             {
                 return View(response.Movie);
             }
-
 
             return RedirectToAction("Index", "Movie");
         }
@@ -92,6 +116,52 @@ namespace Movie_Store_FE.Controllers
 
             await movieApiClient.AddMovie(request);
 
+            return RedirectToAction("Index", "Movie");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            ViewBag.Api = configuration.GetValue<string>("Api");
+            var response = await movieApiClient.GetMovie(id);
+            if (response != null)
+            {
+                return View(response.Movie);
+            }
+
+            return RedirectToAction("Index", "Movie");
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteComfirmed(int id)
+        {
+            await movieApiClient.RemoveMovie(id);
+            return RedirectToAction("Index", "Movie");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewBag.Api = configuration.GetValue<string>("Api");
+
+            var getProducers = await producerApiClient.GetProducers();
+            ViewBag.IDProducer = new SelectList(getProducers.Producers, "ID", "FullName");
+
+            var response = await movieApiClient.GetMovie(id);
+            if (response != null)
+            {
+                return View(response.Movie);
+            }
+
+            return RedirectToAction("Index", "Movie");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, MovieRequest movieRequest)
+        {
+            await movieApiClient.UpdateMovie(id, movieRequest);
             return RedirectToAction("Index", "Movie");
         }
     }

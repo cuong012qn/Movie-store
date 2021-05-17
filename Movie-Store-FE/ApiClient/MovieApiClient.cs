@@ -23,6 +23,16 @@ namespace Movie_Store_FE.ApiClient
             this.configuration = configuration;
         }
 
+        public async Task AddDirector(int idMovie, int idDirector)
+        {
+            var multipart = new MultipartFormDataContent();
+
+            multipart.Add(new StringContent(idMovie.ToString()), "IdMovie");
+            multipart.Add(new StringContent(idDirector.ToString()), "IdDirector");
+
+            await PostAsync("/api/movie/adddirector", multipart);
+        }
+
         public async Task AddMovie(MovieRequest movie)
         {
             var multiPart = new MultipartFormDataContent();
@@ -33,7 +43,7 @@ namespace Movie_Store_FE.ApiClient
             multiPart.Add(new StringContent(movie.IDProducer.ToString()), "IDProducer");
             multiPart.Add(new StreamContent(movie.UploadImage.OpenReadStream()), "UploadImage", movie.UploadImage.FileName);
 
-            await PostAysnc("/api/movie", multiPart);
+            await PostAsync("/api/movie", multiPart);
         }
 
         public async Task<MovieResponse> GetMovie(int id)
@@ -44,6 +54,25 @@ namespace Movie_Store_FE.ApiClient
         public async Task<MovieResponse> GetMovies()
         {
             return await GetListAsync<MovieResponse>("/api/movie");
+        }
+
+        public async Task RemoveMovie(int id)
+        {
+            await RemoveAsync<MovieResponse>($"/api/movie/{id}");
+        }
+
+        public async Task UpdateMovie(int id, MovieRequest movieRequest)
+        {
+            var multipart = new MultipartFormDataContent();
+
+            multipart.Add(new StringContent(movieRequest.Title), "Title");
+            multipart.Add(new StringContent(movieRequest.Description), "Description");
+            multipart.Add(new StringContent(movieRequest.ReleaseDate.ToString("yyyy-MM-dd")), "ReleaseDate");
+            multipart.Add(new StringContent(movieRequest.IDProducer.ToString()), "IDProducer");
+            if (movieRequest.UploadImage != null)
+                multipart.Add(new StreamContent(movieRequest.UploadImage.OpenReadStream()), "UploadImage", movieRequest.UploadImage.FileName);
+
+            await UpdateAsync<MovieResponse>($"/api/movie/{id}", multipart);
         }
     }
 }

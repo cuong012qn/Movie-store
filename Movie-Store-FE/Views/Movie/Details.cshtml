@@ -19,7 +19,7 @@
         <p>@Model.Description</p>
     </div>
 
-    <h3>Directors <a asp-action="Create" asp-controller="MovieDirector" asp-route-IDMovie="@Model.ID">Add Director</a></h3>
+    <h3>Directors <a asp-action="AddDirector" asp-controller="Movie" asp-route-IDMovie="@Model.ID">Add Director</a></h3>
 
     <div class="card-deck">
         @if (Model.Directors.Count > 0)

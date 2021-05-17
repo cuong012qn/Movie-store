@@ -103,12 +103,7 @@ namespace Movie_Store_API.Controllers
                 await _producerRepository.RemoveProducerAsync(id);
                 await _producerRepository.SaveChangesAsync();
 
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch
             {
@@ -129,12 +124,7 @@ namespace Movie_Store_API.Controllers
             try
             {
                 await _producerRepository.UpdateProducerAsync(id, producerRequest);
-                return StatusCode(StatusCodes.Status204NoContent,
-                    new
-                    {
-                        message = "Resource updated successfully",
-                        success = true
-                    });
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch
             {
